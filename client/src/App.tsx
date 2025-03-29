@@ -22,6 +22,10 @@ function Router() {
     console.log('Route changed, refreshing ads');
     // Small delay to ensure DOM has updated before refreshing ads
     const timer = setTimeout(() => {
+      if (window.HowToAI?.ads.enhance) {
+        window.HowToAI.ads.enhance();
+        console.log('Enhanced ad containers after route change');
+      }
       refreshAds();
     }, 500);
     

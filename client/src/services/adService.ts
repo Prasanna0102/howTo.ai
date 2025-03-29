@@ -53,6 +53,43 @@ function reloadAdScripts() {
 }
 
 /**
+ * Add additional ad container attributes to ensure compatibility with the ad network
+ */
+function enhanceAdContainers() {
+  try {
+    // Select all elements that should be ad containers
+    const adContainers = document.querySelectorAll('.ad-placeholder, [data-ad-slot]');
+    
+    adContainers.forEach(container => {
+      // Make sure all ad containers have the necessary attributes
+      if (!container.hasAttribute('data-ad-unit')) {
+        container.setAttribute('data-ad-unit', 'true');
+      }
+      
+      if (!container.hasAttribute('data-ad-container')) {
+        container.setAttribute('data-ad-container', 'true');
+      }
+      
+      // Set format based on container dimensions if not already set
+      if (!container.hasAttribute('data-ad-format')) {
+        const rect = container.getBoundingClientRect();
+        if (rect.width > rect.height * 1.5) {
+          container.setAttribute('data-ad-format', 'horizontal');
+        } else if (rect.height > rect.width * 1.5) {
+          container.setAttribute('data-ad-format', 'vertical');
+        } else {
+          container.setAttribute('data-ad-format', 'rectangle');
+        }
+      }
+    });
+
+    console.log('Ad containers enhanced');
+  } catch (error) {
+    console.error('Error enhancing ad containers:', error);
+  }
+}
+
+/**
  * Initialize the ad service by defining the global ad container
  * This should be called when the application first loads
  */
@@ -62,10 +99,32 @@ export function initializeAdService() {
     window.HowToAI = {
       ads: {
         refresh: refreshAds,
-        reload: reloadAdScripts
+        reload: reloadAdScripts,
+        enhance: enhanceAdContainers
       }
     };
   }
+
+  // Enhance ad containers after DOM load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', enhanceAdContainers);
+  } else {
+    enhanceAdContainers();
+  }
+
+  // Also enhance containers when content changes (debounced)
+  let enhanceTimeout: ReturnType<typeof setTimeout> | null = null;
+  const observer = new MutationObserver(() => {
+    if (enhanceTimeout) {
+      clearTimeout(enhanceTimeout);
+    }
+    enhanceTimeout = setTimeout(enhanceAdContainers, 500);
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
 
   // Attach to global error event to monitor ad-related errors
   window.addEventListener('error', (event) => {
@@ -87,6 +146,7 @@ declare global {
       ads: {
         refresh: () => void;
         reload: () => void;
+        enhance: () => void;
       };
     };
   }
