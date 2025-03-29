@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRoute, useLocation } from "wouter";
+import { useRoute, useLocation, Link } from "wouter";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -151,7 +151,7 @@ const Home = () => {
             <section className="py-10 sm:py-16">
               <div className="max-w-3xl mx-auto text-center mb-10">
                 <h1 className="text-3xl sm:text-4xl font-bold mb-6">
-                  Get instant expert guides on anything
+                  HowTo.AI: Expert Step-by-Step Guides on Anything
                 </h1>
                 <p className="text-xl text-gray-300 mb-8">
                   Simply tell us what you want to learn, and our AI will create a personalized step-by-step guide.
@@ -168,7 +168,101 @@ const Home = () => {
           
           {/* Initial Ad Container (shown below input) */}
           {showInitialAds && !showResults && (
-            <AdContainer type="initial" />
+            <>
+              <AdContainer type="initial" />
+              
+              {/* How It Works Section with Internal Links */}
+              <section id="how-it-works" className="py-16 border-t border-gray-800 mt-10">
+                <div className="max-w-4xl mx-auto">
+                  <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-center">How HowTo.AI Works</h2>
+                  
+                  <div className="grid md:grid-cols-3 gap-8">
+                    <div className="bg-secondary/20 p-6 rounded-lg border border-gray-800">
+                      <div className="text-center mb-4">
+                        <span className="inline-block bg-primary/20 text-primary rounded-full w-12 h-12 flex items-center justify-center text-xl mb-2">1</span>
+                        <h3 className="text-xl font-semibold">Tell Us What You Need</h3>
+                      </div>
+                      <p className="text-gray-300">Enter any topic or question you need guidance on. Be specific for better results.</p>
+                      <Link href="/#examples">
+                        <div className="mt-4 text-primary hover:underline cursor-pointer">See example topics</div>
+                      </Link>
+                    </div>
+                    
+                    <div className="bg-secondary/20 p-6 rounded-lg border border-gray-800">
+                      <div className="text-center mb-4">
+                        <span className="inline-block bg-primary/20 text-primary rounded-full w-12 h-12 flex items-center justify-center text-xl mb-2">2</span>
+                        <h3 className="text-xl font-semibold">AI Creates Your Guide</h3>
+                      </div>
+                      <p className="text-gray-300">Our AI analyzes your request and generates a customized step-by-step guide in seconds.</p>
+                      <Link href="/#about">
+                        <div className="mt-4 text-primary hover:underline cursor-pointer">Learn about our technology</div>
+                      </Link>
+                    </div>
+                    
+                    <div className="bg-secondary/20 p-6 rounded-lg border border-gray-800">
+                      <div className="text-center mb-4">
+                        <span className="inline-block bg-primary/20 text-primary rounded-full w-12 h-12 flex items-center justify-center text-xl mb-2">3</span>
+                        <h3 className="text-xl font-semibold">Save &amp; Share</h3>
+                      </div>
+                      <p className="text-gray-300">Download your guide as a PDF, print it, or share it with friends and colleagues.</p>
+                      <a href="https://howto-ai.netlify.app/guide/how-to-bake-a-perfect-chocolate-cake-example" className="mt-4 text-primary hover:underline block">
+                        View a sample guide
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              
+              {/* Example Topics Section */}
+              <section id="examples" className="py-16 border-t border-gray-800">
+                <div className="max-w-4xl mx-auto">
+                  <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-center">Example Topics</h2>
+                  
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <a href="/#" onClick={(e) => { e.preventDefault(); handleSubmit("How to grow vegetables in a small apartment"); }} className="block bg-secondary/10 hover:bg-secondary/20 p-4 rounded-lg border border-gray-800 transition-colors">
+                      <h3 className="font-semibold mb-1">How to grow vegetables in a small apartment</h3>
+                      <p className="text-sm text-gray-400">Indoor gardening tips for limited spaces</p>
+                    </a>
+                    
+                    <a href="/#" onClick={(e) => { e.preventDefault(); handleSubmit("How to create an effective workout routine"); }} className="block bg-secondary/10 hover:bg-secondary/20 p-4 rounded-lg border border-gray-800 transition-colors">
+                      <h3 className="font-semibold mb-1">How to create an effective workout routine</h3>
+                      <p className="text-sm text-gray-400">Exercise plans for different fitness goals</p>
+                    </a>
+                    
+                    <a href="/#" onClick={(e) => { e.preventDefault(); handleSubmit("How to take better photos with your smartphone"); }} className="block bg-secondary/10 hover:bg-secondary/20 p-4 rounded-lg border border-gray-800 transition-colors">
+                      <h3 className="font-semibold mb-1">How to take better photos with your smartphone</h3>
+                      <p className="text-sm text-gray-400">Smartphone photography tips and techniques</p>
+                    </a>
+                    
+                    <a href="/#" onClick={(e) => { e.preventDefault(); handleSubmit("How to start meditation for beginners"); }} className="block bg-secondary/10 hover:bg-secondary/20 p-4 rounded-lg border border-gray-800 transition-colors">
+                      <h3 className="font-semibold mb-1">How to start meditation for beginners</h3>
+                      <p className="text-sm text-gray-400">Simple techniques to begin mindfulness practice</p>
+                    </a>
+                  </div>
+                </div>
+              </section>
+              
+              {/* About Section */}
+              <section id="about" className="py-16 border-t border-gray-800">
+                <div className="max-w-3xl mx-auto">
+                  <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center">About HowTo.AI</h2>
+                  
+                  <div className="prose prose-invert max-w-none">
+                    <p>
+                      HowTo.AI uses advanced artificial intelligence to generate personalized how-to guides on virtually any topic. Our platform connects to Anthropic's Claude 3.7 Sonnet, one of the world's most advanced AI assistants, to create detailed, accurate step-by-step instructions tailored to your specific needs.
+                    </p>
+                    <p>
+                      Unlike static guides that might not address your particular situation, HowTo.AI creates guides specifically for your request. Whether you're trying to learn a new skill, troubleshoot a problem, or just curious about how something works, our AI can create an expert guide just for you.
+                    </p>
+                    <p>
+                      <Link href="https://howto-ai.netlify.app">
+                        <span className="text-primary hover:underline">Try HowTo.AI</span>
+                      </Link> today to get instant expert guidance on any topic!
+                    </p>
+                  </div>
+                </div>
+              </section>
+            </>
           )}
           
           {/* Results Section */}
