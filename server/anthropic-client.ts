@@ -11,12 +11,12 @@ export async function generateGuideContent(query: string): Promise<string> {
   try {
     console.log(`Generating guide content for query: ${query}`);
     
+    // Use a more concise prompt and lower max_tokens to improve response time
     const message = await anthropic.messages.create({
-      max_tokens: 4000,
+      max_tokens: 2000, // Reduced from 4000 to improve response time
+      temperature: 0.7, // Add some creativity but keep it focused
       model: MODEL,
-      system: `You are an expert at creating comprehensive, well-structured how-to guides.
-      
-Format your response as a valid JSON object with the following structure:
+      system: `Create concise how-to guides as valid JSON with this structure:
 {
   "title": "How to [Do Something]",
   "sections": [
@@ -30,23 +30,20 @@ Format your response as a valid JSON object with the following structure:
       "type": "list",
       "content": [],
       "items": ["item 1", "item 2"]
-    },
-    // Add more sections as needed
+    }
   ]
 }
 
-Important rules:
-1. Title should be concise and start with "How to"
-2. Include at least 4-6 sections including Introduction and Conclusion
-3. For list-type sections, include both the empty "content" array AND the "items" array
-4. For text-type sections, include detailed paragraphs in the "content" array
-5. Make sure to escape all quotes and special characters properly
-6. The entire response must be valid JSON that can be parsed with JSON.parse()`,
+Rules:
+1. Title starts with "How to"
+2. 4-6 sections total including Intro and Conclusion
+3. Lists need empty "content" array AND "items" array
+4. Text sections need detailed "content" array
+5. MUST be valid parseable JSON`,
       messages: [
         {
           role: 'user',
-          content: `Create a detailed how-to guide about: ${query}. 
-          Make sure to format your response exactly as JSON following the structure in your instructions.`
+          content: `Create a how-to guide about: ${query}. JSON format only.`
         }
       ],
     });
@@ -63,8 +60,8 @@ Important rules:
     
     // Fallback if structure is different
     return JSON.stringify(message.content);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error calling Anthropic API:', error);
-    throw error;
+    throw new Error(`Failed to generate guide: ${error?.message || 'Unknown error'}`);
   }
 }

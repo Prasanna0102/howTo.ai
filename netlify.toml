@@ -16,6 +16,11 @@
 [functions]
   # Directory with serverless functions
   directory = "dist/functions"
+  # Increase timeout to 30 seconds
+  node_bundler = "esbuild"
+  
+  [functions.api]
+    timeout = 30
 
 # API redirects to Netlify Function
 [[redirects]]
@@ -49,4 +54,4 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com; font-src 'self'; object-src 'none'; media-src 'self'; frame-src 'self';"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.groptoxegri.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: *; connect-src 'self' https://api.anthropic.com; font-src 'self'; object-src 'none'; media-src 'self'; frame-src 'self';"

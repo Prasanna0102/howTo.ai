@@ -114,14 +114,58 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, isLoading }) => {
                 animate={{ opacity: 1 }}
                 className="flex items-center"
               >
-                <div className="relative h-4 w-4 mr-2">
-                  <motion.div
-                    className="absolute inset-0 border-t-2 border-r-2 border-white rounded-full"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                  />
+                <div className="relative h-5 w-5 mr-2">
+                  {/* More modern animated dots */}
+                  <div className="flex space-x-1">
+                    <motion.div
+                      className="h-1.5 w-1.5 bg-white rounded-full"
+                      animate={{ 
+                        y: [0, -3, 0],
+                        opacity: [1, 0.8, 1]
+                      }}
+                      transition={{ 
+                        duration: 0.6, 
+                        repeat: Infinity, 
+                        ease: "easeInOut",
+                        repeatDelay: 0.1
+                      }}
+                    />
+                    <motion.div
+                      className="h-1.5 w-1.5 bg-white rounded-full"
+                      animate={{ 
+                        y: [0, -3, 0],
+                        opacity: [1, 0.8, 1]
+                      }}
+                      transition={{ 
+                        duration: 0.6, 
+                        repeat: Infinity, 
+                        ease: "easeInOut",
+                        delay: 0.15,
+                        repeatDelay: 0.1
+                      }}
+                    />
+                    <motion.div
+                      className="h-1.5 w-1.5 bg-white rounded-full"
+                      animate={{ 
+                        y: [0, -3, 0],
+                        opacity: [1, 0.8, 1]
+                      }}
+                      transition={{ 
+                        duration: 0.6, 
+                        repeat: Infinity, 
+                        ease: "easeInOut",
+                        delay: 0.3,
+                        repeatDelay: 0.1
+                      }}
+                    />
+                  </div>
                 </div>
-                <span>Generating...</span>
+                <motion.span
+                  animate={{ opacity: [0.8, 1, 0.8] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  Generating
+                </motion.span>
               </motion.div>
             ) : (
               <motion.span

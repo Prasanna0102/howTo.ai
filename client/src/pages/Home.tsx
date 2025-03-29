@@ -49,7 +49,7 @@ const Home = () => {
   // Mutation for generating a guide with optimistic UI updates
   const generateGuideMutation = useMutation({
     mutationFn: async (query: string) => {
-      // Show loading state immediately
+      // Show loading state immediately without changing the page
       setShowResults(true);
       
       // Keep showing ads during loading
@@ -62,8 +62,9 @@ const Home = () => {
     onSuccess: (data) => {
       setGuide(data);
       
-      // Update URL with the guide slug
-      setLocation(`/guide/${data.slug}`);
+      // Instead of redirecting, just update the URL silently using history.pushState
+      const newUrl = `/guide/${data.slug}`;
+      window.history.pushState({ path: newUrl }, '', newUrl);
       
       // Set share URL
       const url = new URL(window.location.href);
@@ -199,46 +200,135 @@ const Home = () => {
                       className="bg-secondary/20 border border-gray-800 rounded-lg p-6 h-full"
                     >
                       <div className="flex flex-col items-center justify-center py-16">
-                        {/* Animated loading indicator */}
-                        <div className="relative w-20 h-20 mb-8">
+                        {/* Modern animated loading indicator */}
+                        <div className="relative w-24 h-24 mb-8">
+                          {/* Outer spinning circle */}
                           <motion.div 
-                            className="absolute inset-0 border-4 border-primary/30 rounded-full"
-                            animate={{ rotate: 360 }}
+                            className="absolute inset-0 border-4 border-primary/20 rounded-full"
+                            animate={{ 
+                              scale: [1, 1.05, 1],
+                              rotate: 360 
+                            }}
                             transition={{ 
-                              duration: 1.5, 
-                              repeat: Infinity, 
-                              ease: "linear" 
+                              scale: {
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              },
+                              rotate: {
+                                duration: 3, 
+                                repeat: Infinity, 
+                                ease: "linear"
+                              }
                             }}
                           />
+                          
+                          {/* Middle spinning element */}
                           <motion.div 
-                            className="absolute inset-2 border-4 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full"
-                            animate={{ rotate: 180 }}
+                            className="absolute inset-3 border-4 border-primary/50 rounded-full"
+                            animate={{ 
+                              rotate: -180,
+                              scale: [1, 0.95, 1]
+                            }}
                             transition={{ 
-                              duration: 1.8, 
-                              repeat: Infinity, 
-                              ease: "linear",
-                              repeatType: "reverse" 
+                              rotate: {
+                                duration: 2, 
+                                repeat: Infinity, 
+                                ease: "easeInOut"
+                              },
+                              scale: {
+                                duration: 1.5,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              }
+                            }}
+                          />
+                          
+                          {/* Inner pulsing circle */}
+                          <motion.div 
+                            className="absolute inset-6 bg-primary/30 rounded-full"
+                            animate={{ 
+                              scale: [0.8, 1.1, 0.8],
+                              opacity: [0.5, 0.8, 0.5]
+                            }}
+                            transition={{ 
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "easeInOut"
+                            }}
+                          />
+                          
+                          {/* Center dot */}
+                          <motion.div 
+                            className="absolute inset-10 bg-primary rounded-full shadow-lg shadow-primary/40"
+                            animate={{ 
+                              scale: [1, 0.9, 1]
+                            }}
+                            transition={{ 
+                              duration: 1.5,
+                              repeat: Infinity,
+                              ease: "easeInOut"
                             }}
                           />
                         </div>
                         
                         <motion.h3
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 0.2 }}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.2, duration: 0.5 }}
                           className="text-2xl font-semibold mb-4"
                         >
-                          Creating your personalized guide
+                          <motion.span 
+                            initial={{ opacity: 0, y: 5 }} 
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3, duration: 0.2 }}
+                          >
+                            Creating
+                          </motion.span>{" "}
+                          <motion.span 
+                            initial={{ opacity: 0, y: 5 }} 
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4, duration: 0.2 }}
+                          >
+                            your
+                          </motion.span>{" "}
+                          <motion.span 
+                            initial={{ opacity: 0, y: 5 }} 
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5, duration: 0.2 }}
+                          >
+                            personalized
+                          </motion.span>{" "}
+                          <motion.span 
+                            initial={{ opacity: 0, y: 5 }} 
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6, duration: 0.2 }}
+                          >
+                            guide
+                          </motion.span>
                         </motion.h3>
                         
                         <motion.div
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
-                          transition={{ delay: 0.4 }}
+                          transition={{ delay: 0.7 }}
                           className="text-center text-gray-400 max-w-md mb-8"
                         >
-                          <p className="mb-2">We're assembling an expertly crafted guide just for you.</p>
-                          <p>This typically takes around 15-20 seconds.</p>
+                          <motion.p 
+                            className="mb-2"
+                            initial={{ opacity: 0, x: -5 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.8 }}
+                          >
+                            We're assembling an expertly crafted guide just for you.
+                          </motion.p>
+                          <motion.p
+                            initial={{ opacity: 0, x: 5 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.9 }}
+                          >
+                            This typically takes around 15-20 seconds.
+                          </motion.p>
                         </motion.div>
                         
                         {/* Show mini preview of what's coming */}
