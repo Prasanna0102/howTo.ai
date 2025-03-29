@@ -10,6 +10,10 @@
   <meta name="theme-color" content="#1a1a1a">
   <meta name="60766ea26fac893a2e4931e8d8c37f2ff953f8d1" content="60766ea26fac893a2e4931e8d8c37f2ff953f8d1" />
   <meta name="referrer" content="no-referrer-when-downgrade" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="monetization" content="$ilp.uphold.com/RHgMwm8PX7Xk" />
+  <meta name="ad-format" content="multiple" />
+  <meta name="ad-density" content="standard" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -54,17 +58,8 @@
       .print-only { display: block; }
     }
   </style>
-</head>
-<body>
-  <div id="root"></div>
-  <noscript>
-    <div style="padding: 2rem; text-align: center;">
-      <h1>JavaScript Required</h1>
-      <p>Please enable JavaScript to use HowTo.AI. We need it to generate personalized guides for you.</p>
-    </div>
-  </noscript>
-  <script type="module" src="/src/main.tsx"></script>
   
+  <!-- Ad Scripts - Placed in head for earlier loading -->
   <script>
   (function(aczsz){
   var d = document,
@@ -90,5 +85,15 @@
   l.parentNode.insertBefore(s, l);
   })({})
   </script>
+</head>
+<body>
+  <div id="root"></div>
+  <noscript>
+    <div style="padding: 2rem; text-align: center;">
+      <h1>JavaScript Required</h1>
+      <p>Please enable JavaScript to use HowTo.AI. We need it to generate personalized guides for you.</p>
+    </div>
+  </noscript>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

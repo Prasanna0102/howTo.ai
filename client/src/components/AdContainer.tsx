@@ -19,7 +19,9 @@ const AdContainer: React.FC<AdContainerProps> = ({ type, className = "" }) => {
           {[1, 2, 3].map((adIndex) => (
             <div 
               key={adIndex}
-              className="ad-placeholder h-60 rounded-lg flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"
+              id={`ad-initial-${adIndex}`}
+              className="ad-placeholder ad-unit-initial h-60 rounded-lg flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"
+              data-ad-slot={`initial-${adIndex}`}
             >
               <div className="text-center">
                 <div className="text-primary mb-2"><i className="fas fa-ad text-2xl"></i></div>
@@ -44,7 +46,9 @@ const AdContainer: React.FC<AdContainerProps> = ({ type, className = "" }) => {
           {[1, 2, 3].map((adIndex) => (
             <div 
               key={adIndex}
-              className="ad-placeholder h-80 rounded-lg flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"
+              id={`ad-side-${adIndex}`}
+              className="ad-placeholder ad-unit-side h-80 rounded-lg flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"
+              data-ad-slot={`side-${adIndex}`}
             >
               <div className="text-center">
                 <div className="text-primary mb-2"><i className="fas fa-ad text-2xl"></i></div>
