@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { serveStatic } from "./vite";
+import { serveStatic } from "./netlify-vite";
 
 // Export app for Netlify Functions
 export const app = express();

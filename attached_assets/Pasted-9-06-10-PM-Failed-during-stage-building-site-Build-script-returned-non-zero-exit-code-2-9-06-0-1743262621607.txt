@@ -1,0 +1,116 @@
+9:06:10 PM: Failed during stage 'building site': Build script returned non-zero exit code: 2
+9:06:04 PM: Netlify Build                                                 
+9:06:04 PM: ────────────────────────────────────────────────────────────────
+9:06:04 PM: ​
+9:06:04 PM: ❯ Version
+9:06:04 PM:   @netlify/build 30.0.6
+9:06:04 PM: ​
+9:06:04 PM: ❯ Flags
+9:06:04 PM:   accountId: 67e67f0a589a1d5a97522f0a
+9:06:04 PM:   baseRelDir: true
+9:06:04 PM:   buildId: 67e8131f5d5d350008bcf7b1
+9:06:04 PM:   deployId: 67e8131f5d5d350008bcf7b3
+9:06:04 PM: ​
+9:06:04 PM: ❯ Current directory
+9:06:04 PM:   /opt/build/repo
+9:06:04 PM: ​
+9:06:04 PM: ❯ Config file
+9:06:04 PM:   /opt/build/repo/netlify.toml
+9:06:04 PM: ​
+9:06:04 PM: ❯ Context
+9:06:04 PM:   production
+9:06:04 PM: ​
+9:06:04 PM: build.command from netlify.toml                               
+9:06:04 PM: ────────────────────────────────────────────────────────────────
+9:06:04 PM: ​
+9:06:04 PM: $ bash ./netlify-build.sh
+9:06:04 PM: vite v5.4.14 building for production...
+9:06:04 PM: transforming...
+9:06:08 PM: ✓ 2424 modules transformed.
+9:06:08 PM: rendering chunks...
+9:06:09 PM: computing gzip size...
+9:06:09 PM: ../dist/public/index.html                            4.24 kB │ gzip:   1.48 kB
+9:06:09 PM: ../dist/public/assets/index-BikL8ELR.css            74.47 kB │ gzip:  12.59 kB
+9:06:09 PM: ../dist/public/assets/purify.es-D-QPbZEk.js         21.82 kB │ gzip:   8.60 kB
+9:06:09 PM: ../dist/public/assets/index.es-DyurU-1-.js         149.98 kB │ gzip:  51.25 kB
+9:06:09 PM: ../dist/public/assets/html2canvas.esm-CBrSDip1.js  201.42 kB │ gzip:  48.03 kB
+9:06:09 PM: ../dist/public/assets/index-DgpeLa_r.js            795.67 kB │ gzip: 257.57 kB
+9:06:09 PM: 
+9:06:09 PM: (!) Some chunks are larger than 500 kB after minification. Consider:
+9:06:09 PM: - Using dynamic import() to code-split the application
+9:06:09 PM: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+9:06:09 PM: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+9:06:09 PM: ✓ built in 4.59s
+9:06:09 PM: ▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+9:06:09 PM:     server/vite.ts:6:33:
+9:06:09 PM:       6 │ const __filename = fileURLToPath(import.meta.url);
+9:06:09 PM:         ╵                                  ~~~~~~~~~~~
+9:06:09 PM:   You need to set the output format to "esm" for "import.meta" to work correctly.
+9:06:09 PM: ▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+9:06:09 PM:     vite.config.ts:8:33:
+9:06:09 PM:       8 │ const __filename = fileURLToPath(import.meta.url);
+9:06:09 PM:         ╵                                  ~~~~~~~~~~~
+9:06:09 PM:   You need to set the output format to "esm" for "import.meta" to work correctly.
+9:06:09 PM: ✘ [ERROR] Top-level await is currently not supported with the "cjs" output format
+9:06:09 PM:     vite.config.ts:19:10:
+9:06:09 PM:       19 │           await import("@replit/vite-plugin-cartographer").then((m...
+9:06:09 PM:          ╵           ~~~~~
+9:06:09 PM: 2 warnings and 1 error
+9:06:09 PM: Build completed successfully. The application is ready for Netlify deployment.
+9:06:09 PM: ​
+9:06:09 PM: (build.command completed in 5.4s)
+9:06:09 PM: ​
+9:06:09 PM: Functions bundling                                            
+9:06:09 PM: ────────────────────────────────────────────────────────────────
+9:06:09 PM: ​
+9:06:09 PM: Packaging Functions from dist/functions directory:
+9:06:09 PM:  - api.js
+9:06:09 PM: ​
+9:06:09 PM: ​
+9:06:09 PM: Dependencies installation error                               
+9:06:09 PM: ────────────────────────────────────────────────────────────────
+9:06:09 PM: ​
+9:06:09 PM:   Error message
+9:06:09 PM:   A Netlify Function failed to require one of its dependencies.
+9:06:09 PM:   Please make sure it is present in the site's top-level "package.json".
+​
+9:06:09 PM:   In file "/opt/build/repo/dist/functions/api.js"
+9:06:09 PM:   Cannot find module './index.js' from '/opt/build/repo/dist/functions'
+9:06:09 PM: ​
+9:06:09 PM:   Resolved config
+9:06:09 PM:   build:
+9:06:09 PM:     base: /opt/build/repo
+9:06:09 PM:     command: bash ./netlify-build.sh
+9:06:09 PM:     commandOrigin: config
+9:06:09 PM:     environment:
+9:06:09 PM:       - ANTHROPIC_API_KEY
+9:06:09 PM:       - NODE_VERSION
+9:06:09 PM:     publish: /opt/build/repo/dist/public
+9:06:09 PM:     publishOrigin: config
+9:06:09 PM:   functionsDirectory: /opt/build/repo/dist/functions
+9:06:09 PM:   headers:
+9:06:10 PM:     - for: /assets/*
+      values:
+        Cache-Control: public, max-age=31536000, immutable
+    - for: '*.{jpg,jpeg,png,svg,gif,webp}'
+      values:
+        Cache-Control: public, max-age=31536000, immutable
+    - for: /*
+      values:
+        Content-Security-Policy: 'default-src ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''; style-src ''self'' ''unsafe-inline''; img-src ''self'' data: blob:; connect-src ''self'' https://api.anthropic.com; font-src ''self''; object-src ''none''; media-src ''self''; frame-src ''self'';'
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+        X-Frame-Options: DENY
+        X-XSS-Protection: 1; mode=block
+  headersOrigin: config
+  redirects:
+    - from: /api/*
+      status: 200
+      to: /.netlify/functions/api/:splat
+    - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+9:06:10 PM: Build failed due to a user error: Build script returned non-zero exit code: 2
+9:06:10 PM: Failing build: Failed to build site
+9:06:10 PM: Finished processing build request in 30.979s
