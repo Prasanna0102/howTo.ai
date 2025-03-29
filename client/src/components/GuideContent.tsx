@@ -2,6 +2,7 @@ import React from "react";
 import { Guide, GuideSection, GuideContent as GuideContentType } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import InlineAdUnit from "./InlineAdUnit";
 
 interface GuideContentProps {
   guide: Guide;
@@ -39,42 +40,58 @@ const GuideContent: React.FC<GuideContentProps> = ({
     }
   ];
 
+  // Function to insert ads after specific sections
+  const renderSectionsWithAds = () => {
+    return sections.map((section: GuideSection, index: number) => {
+      const isAdPosition = (index + 1) % 2 === 0 && index !== sections.length - 1;
+      
+      return (
+        <React.Fragment key={index}>
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold mb-3">{section.title}</h3>
+            
+            {section.type === "list" ? (
+              <ul className="list-disc pl-5 space-y-2">
+                {section.items?.map((item: string, itemIndex: number) => (
+                  <li key={itemIndex}>{item}</li>
+                ))}
+              </ul>
+            ) : (
+              <>
+                {section.content?.map((paragraph: string, paragraphIndex: number) => (
+                  <p key={paragraphIndex} className={paragraphIndex < section.content.length - 1 ? "mb-3" : ""}>
+                    {paragraph}
+                  </p>
+                ))}
+              </>
+            )}
+          </div>
+          
+          {/* Insert ad unit after every second section */}
+          {isAdPosition && <InlineAdUnit />}
+        </React.Fragment>
+      );
+    });
+  };
+
   return (
-    <div className="lg:w-3/4">
+    <article className="lg:w-3/4">
       <div className="bg-secondary/20 border border-gray-800 rounded-lg p-6 mb-6">
         {/* Guide Header */}
-        <div className="mb-6">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">{title}</h2>
+        <header className="mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-3">{title}</h1>
           <div className="flex items-center text-sm text-gray-400">
-            <span>Generated on <span>{formattedDate}</span></span>
+            <time dateTime={new Date(createdAt).toISOString()}>
+              Generated on {formattedDate}
+            </time>
             <span className="mx-2">•</span>
             <span>By HowTo.AI</span>
           </div>
-        </div>
+        </header>
         
-        {/* Guide Content */}
+        {/* Guide Content with interspersed ads */}
         <div className="prose prose-invert max-w-none">
-          {sections.map((section: GuideSection, index: number) => (
-            <div className="mb-6" key={index}>
-              <h3 className="text-xl font-semibold mb-3">{section.title}</h3>
-              
-              {section.type === "list" ? (
-                <ul className="list-disc pl-5 space-y-2">
-                  {section.items?.map((item: string, itemIndex: number) => (
-                    <li key={itemIndex}>{item}</li>
-                  ))}
-                </ul>
-              ) : (
-                <>
-                  {section.content?.map((paragraph: string, paragraphIndex: number) => (
-                    <p key={paragraphIndex} className={paragraphIndex < section.content.length - 1 ? "mb-3" : ""}>
-                      {paragraph}
-                    </p>
-                  ))}
-                </>
-              )}
-            </div>
-          ))}
+          {renderSectionsWithAds()}
         </div>
         
         {/* Guide Actions */}
@@ -83,6 +100,7 @@ const GuideContent: React.FC<GuideContentProps> = ({
             variant="secondary" 
             onClick={onShare}
             className="flex items-center gap-2"
+            aria-label="Share guide"
           >
             <i className="fas fa-share-alt"></i>
             <span>Share</span>
@@ -91,6 +109,7 @@ const GuideContent: React.FC<GuideContentProps> = ({
             variant="secondary" 
             onClick={onPrint}
             className="flex items-center gap-2"
+            aria-label="Print guide"
           >
             <i className="fas fa-print"></i>
             <span>Print</span>
@@ -98,6 +117,7 @@ const GuideContent: React.FC<GuideContentProps> = ({
           <Button 
             onClick={onDownload}
             className="flex items-center gap-2 bg-primary hover:bg-primary/80"
+            aria-label="Download guide as PDF"
           >
             <i className="fas fa-file-pdf"></i>
             <span>Download PDF</span>
@@ -106,20 +126,20 @@ const GuideContent: React.FC<GuideContentProps> = ({
       </div>
       
       {/* Related Guides */}
-      <div className="mt-10">
-        <h3 className="text-xl font-semibold mb-4">Related Guides</h3>
+      <section className="mt-10">
+        <h2 className="text-xl font-semibold mb-4">Related Guides</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {relatedGuides.map((relatedGuide, index) => (
             <Link href={relatedGuide.slug} key={index}>
               <div className="block bg-secondary/20 border border-gray-800 p-4 rounded-lg hover:bg-secondary/30 transition-colors cursor-pointer">
-                <h4 className="font-medium mb-1">{relatedGuide.title}</h4>
+                <h3 className="font-medium mb-1">{relatedGuide.title}</h3>
                 <p className="text-sm text-gray-400">{relatedGuide.readTime} read</p>
               </div>
             </Link>
           ))}
         </div>
-      </div>
-    </div>
+      </section>
+    </article>
   );
 };
 

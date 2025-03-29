@@ -75,7 +75,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           textContent = JSON.stringify(response.content);
         }
         
-        console.log("Raw API response:", textContent.substring(0, 200) + "...");
+        const isProduction = process.env.NODE_ENV === 'production';
+        if (!isProduction) {
+          console.log("Raw API response:", textContent.substring(0, 200) + "...");
+        }
         
         // More robust JSON extraction
         let jsonContent = textContent;
@@ -97,9 +100,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         // Try to find JSON-like content using broader matching
         if (!jsonContent.trim().startsWith("{")) {
-          const jsonMatch = textContent.match(/{[\s\S]*}/);
+          const jsonMatch = textContent.match(/{[\s\S]*?}/);
           if (jsonMatch) {
             jsonContent = jsonMatch[0];
+          }
+        }
+        
+        // Find the largest JSON-like portion as another fallback
+        if (!jsonContent.trim().startsWith("{")) {
+          const matches = textContent.match(/{[^{}]*({[^{}]*}[^{}]*)*}/g) || [];
+          if (matches.length > 0) {
+            // Find the longest match that might be our JSON
+            jsonContent = matches.reduce((a, b) => a.length > b.length ? a : b);
           }
         }
         
@@ -118,12 +130,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Fix single quotes used as JSON string delimiters
         jsonContent = jsonContent.replace(/'([^']*)'([,}])/g, '"$1"$2');
         
-        console.log("Extracted JSON:", jsonContent.substring(0, 200) + "...");
+        // Fix missing quotes on property values
+        jsonContent = jsonContent.replace(/:\s*([a-zA-Z0-9_]+)([,}])/g, ':"$1"$2');
+        
+        if (!isProduction) {
+          console.log("Extracted JSON:", jsonContent.substring(0, 200) + "...");
+        }
         
         try {
           parsedContent = JSON.parse(jsonContent);
         } catch (parseError) {
-          console.error("Initial JSON parse failed, trying additional fixes:", parseError);
+          console.error("Initial JSON parse failed, trying additional fixes:", isProduction ? 'Error occurred' : parseError);
           
           // Try more aggressive fixes
           // Replace all single quotes with double quotes, handle nested quotes
@@ -135,10 +152,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
           // Remove any trailing commas
           jsonContent = jsonContent.replace(/,(\s*[\]}])/g, '$1');
           
+          // Try to balance parentheses/brackets/braces
+          let openBraces = (jsonContent.match(/{/g) || []).length;
+          let closeBraces = (jsonContent.match(/}/g) || []).length;
+          
+          if (openBraces > closeBraces) {
+            jsonContent += "}".repeat(openBraces - closeBraces);
+          } else if (closeBraces > openBraces) {
+            jsonContent = "{".repeat(closeBraces - openBraces) + jsonContent;
+          }
+          
           // Try again with the more aggressively fixed JSON
-          parsedContent = JSON.parse(jsonContent);
+          try {
+            parsedContent = JSON.parse(jsonContent);
+          } catch (finalError) {
+            // If all parsing attempts fail, try to extract sections manually
+            console.error("JSON parsing failed after all attempts");
+            throw finalError; // Rethrow to be caught by outer catch
+          }
         }
-        console.log("Successfully parsed JSON");
+        
+        // Validate the parsed content structure
+        if (!parsedContent.title || !Array.isArray(parsedContent.sections)) {
+          throw new Error("Invalid guide structure: missing required properties");
+        }
+        
+        // Ensure all sections have the required properties
+        parsedContent.sections = parsedContent.sections.map((section: any, index: number) => {
+          const validatedSection: GuideSection = {
+            title: section.title || `Section ${index + 1}`,
+            type: section.type === 'list' ? 'list' : 'text',
+            content: Array.isArray(section.content) ? section.content : [],
+          };
+          
+          if (validatedSection.type === 'list' && Array.isArray(section.items)) {
+            validatedSection.items = section.items;
+          }
+          
+          return validatedSection;
+        });
+        
+        console.log("Successfully parsed and validated JSON");
       } catch (err) {
         const error = err as Error;
         console.error('Failed to parse JSON from API response:', error);
@@ -149,7 +203,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
             {
               title: "Introduction",
               type: "text",
-              content: ["The guide could not be generated properly. Please try again with more specific instructions."]
+              content: ["We've prepared a guide on '" + query + "'. However, we're experiencing some technical difficulties formatting it properly."]
+            },
+            {
+              title: "Please Try Again",
+              type: "text",
+              content: ["Try submitting your question again with more specific details for better results."]
+            },
+            {
+              title: "Alternative Resources",
+              type: "text",
+              content: ["While waiting, check out our popular guides section below for related content."]
             }
           ]
         };

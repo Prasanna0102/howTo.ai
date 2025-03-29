@@ -3,14 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="HowTo.AI - Get instant expert how-to guides powered by artificial intelligence">
-  <meta name="keywords" content="how-to guides, AI guides, step by step instructions, tutorials">
+  <meta name="description" content="HowTo.AI - Get instant expert how-to guides personalized to your needs. Step-by-step instructions powered by AI.">
+  <meta name="keywords" content="how-to guides, AI guides, step by step instructions, tutorials, personalized guides, expert guides">
+  <meta name="author" content="HowTo.AI">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#1a1a1a">
   <meta name="60766ea26fac893a2e4931e8d8c37f2ff953f8d1" content="60766ea26fac893a2e4931e8d8c37f2ff953f8d1" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://howto.ai/">
+  <meta property="og:title" content="HowTo.AI - Experts guide, Instantly">
+  <meta property="og:description" content="Get instant expert how-to guides personalized to your needs. Step-by-step instructions powered by AI.">
+  <meta property="og:image" content="https://howto.ai/og-image.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://howto.ai/">
+  <meta property="twitter:title" content="HowTo.AI - Experts guide, Instantly">
+  <meta property="twitter:description" content="Get instant expert how-to guides personalized to your needs. Step-by-step instructions powered by AI.">
+  <meta property="twitter:image" content="https://howto.ai/twitter-image.jpg">
+
   <title>HowTo.AI - Experts guide, Instantly</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Structured data for guides -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "HowTo.AI",
+      "url": "https://howto.ai/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://howto.ai/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+  
   <style>
     /* For PDF creation */
     @media print {
@@ -22,6 +56,12 @@
 </head>
 <body>
   <div id="root"></div>
+  <noscript>
+    <div style="padding: 2rem; text-align: center;">
+      <h1>JavaScript Required</h1>
+      <p>Please enable JavaScript to use HowTo.AI. We need it to generate personalized guides for you.</p>
+    </div>
+  </noscript>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

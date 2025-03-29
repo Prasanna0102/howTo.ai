@@ -15,6 +15,8 @@ import GuideContent from "@/components/GuideContent";
 import SideAdPanel from "@/components/SideAdPanel";
 import ShareModal from "@/components/ShareModal";
 import Footer from "@/components/Footer";
+import BottomAdContainer from "@/components/BottomAdContainer";
+import PopularGuides from "@/components/PopularGuides";
 
 const Home = () => {
   const [match, params] = useRoute("/guide/:slug");
@@ -116,43 +118,36 @@ const Home = () => {
     <div className="flex flex-col min-h-screen bg-background text-white">
       <Header />
       
-      <main className="flex-grow px-4 py-6 sm:px-6 lg:px-8">
+      <main className="flex-grow px-4 py-6 sm:px-6 lg:px-8 print:px-0">
         <div className="max-w-7xl mx-auto">
           {/* Hero Section with Input */}
-          <section className="py-10 sm:py-16">
-            <div className="max-w-3xl mx-auto text-center mb-10">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-                Get instant expert guides on anything
-              </h2>
-              <p className="text-xl text-gray-300 mb-8">
-                Simply tell us what you want to learn, and our AI will create a personalized step-by-step guide.
-              </p>
-              
-              {/* Hero Background */}
-              <div className="absolute inset-0 -z-10 overflow-hidden opacity-10">
-                <img 
-                  src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80" 
-                  alt="Tech background"
-                  className="w-full h-full object-cover" 
+          {!showResults && (
+            <section className="py-10 sm:py-16">
+              <div className="max-w-3xl mx-auto text-center mb-10">
+                <h1 className="text-3xl sm:text-4xl font-bold mb-6">
+                  Get instant expert guides on anything
+                </h1>
+                <p className="text-xl text-gray-300 mb-8">
+                  Simply tell us what you want to learn, and our AI will create a personalized step-by-step guide.
+                </p>
+                
+                {/* Search Form */}
+                <SearchForm 
+                  onSubmit={handleSubmit} 
+                  isLoading={generateGuideMutation.isPending} 
                 />
               </div>
-              
-              {/* Search Form */}
-              <SearchForm 
-                onSubmit={handleSubmit} 
-                isLoading={generateGuideMutation.isPending} 
-              />
-            </div>
-          </section>
+            </section>
+          )}
           
-          {/* Initial Ad Container (shown before generating a guide) */}
+          {/* Initial Ad Container (shown below input) */}
           {showInitialAds && !showResults && (
             <AdContainer type="initial" />
           )}
           
           {/* Results Section (shown after generating a guide) */}
           {showResults && guide && (
-            <section className="py-8">
+            <section className="py-8 print:py-0">
               {/* Loading State */}
               {generateGuideMutation.isPending && (
                 <div className="text-center py-10">
@@ -163,18 +158,42 @@ const Home = () => {
               
               {/* Results Layout */}
               {!generateGuideMutation.isPending && (
-                <div className="flex flex-col lg:flex-row gap-8">
-                  {/* Guide Content */}
-                  <GuideContent 
-                    guide={guide}
-                    onShare={handleShare}
-                    onPrint={handlePrint}
-                    onDownload={handleDownload}
-                  />
+                <>
+                  {/* Simplified search when guide is shown */}
+                  {match && params?.slug && (
+                    <div className="mb-8 max-w-3xl mx-auto md:mx-0 print:hidden">
+                      <SearchForm 
+                        onSubmit={handleSubmit} 
+                        isLoading={generateGuideMutation.isPending} 
+                      />
+                    </div>
+                  )}
                   
-                  {/* Side Ad Container */}
-                  <SideAdPanel />
-                </div>
+                  <div className="flex flex-col lg:flex-row gap-8">
+                    {/* Guide Content */}
+                    <GuideContent 
+                      guide={guide}
+                      onShare={handleShare}
+                      onPrint={handlePrint}
+                      onDownload={handleDownload}
+                    />
+                    
+                    {/* Side Ad Container */}
+                    <div className="lg:w-1/4 print:hidden">
+                      <SideAdPanel />
+                    </div>
+                  </div>
+                  
+                  {/* Bottom Ad Container */}
+                  <div className="print:hidden">
+                    <BottomAdContainer />
+                  </div>
+                  
+                  {/* Popular Guides - Moved below the main content */}
+                  <div className="print:hidden">
+                    <PopularGuides />
+                  </div>
+                </>
               )}
             </section>
           )}

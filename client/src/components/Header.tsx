@@ -9,11 +9,8 @@ const Header = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link href="/">
           <div className="flex items-center cursor-pointer">
-            <div className="mr-2 text-primary">
-              <i className="fas fa-robot text-2xl"></i>
-            </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">HowTo.AI</h1>
+              <h1 className="text-2xl font-bold tracking-tight text-white">HowTo.AI</h1>
               <p className="text-sm text-gray-400">Experts guide, Instantly</p>
             </div>
           </div>
@@ -34,6 +31,8 @@ const Header = () => {
         <button 
           className="md:hidden text-gray-300 hover:text-white"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle menu"
+          aria-expanded={isMenuOpen}
         >
           <i className="fas fa-bars text-xl"></i>
         </button>

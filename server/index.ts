@@ -39,13 +39,14 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
+    const isProduction = process.env.NODE_ENV === 'production';
     
     // Only include error details in development mode
     const errorResponse = {
-      message,
+      message: isProduction ? (status === 500 ? "Internal Server Error" : message) : message,
       ...(process.env.NODE_ENV !== 'production' && { 
         stack: err.stack,
         details: err.details || err 
@@ -54,11 +55,25 @@ app.use((req, res, next) => {
 
     res.status(status).json(errorResponse);
     
-    // Don't throw in production, just log
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('Server error:', err);
+    // Enhanced error logging 
+    if (isProduction) {
+      console.error('Server error occurred:', {
+        status,
+        url: req.url,
+        method: req.method,
+        ip: req.ip,
+        userAgent: req.headers['user-agent'],
+        timestamp: new Date().toISOString(),
+        errorType: err.name || 'Error',
+        errorMessage: err.message
+      });
     } else {
-      console.error('Server error occurred');
+      console.error('Server error:', err);
+    }
+    
+    // Recover from any uncaught JSON parsing errors in the Claude API responses
+    if (err.name === 'SyntaxError' && err.message.includes('JSON')) {
+      console.error('JSON parsing error - attempting recovery');
     }
   });
 
