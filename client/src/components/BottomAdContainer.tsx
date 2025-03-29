@@ -23,17 +23,26 @@ const BottomAdContainer: React.FC<BottomAdContainerProps> = ({ className = "" })
         </div>
         
         <div 
-          className="ad-placeholder rounded-md flex items-center justify-center bg-gradient-to-r from-gray-800 to-gray-900 border-0 overflow-hidden shadow-sm mt-4"
+          className="ad-placeholder rounded-md flex items-center justify-center bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-700 overflow-hidden shadow-sm mt-4"
           style={{ minHeight: "90px", opacity: 0.8 }}
         >
-          {/* Hilltopads Ad Container */}
+          {/* Ad Container with visual fallback */}
           <div 
             id="bottom-1"
-            className="ad-unit"
+            className="ad-unit w-full h-full flex items-center justify-center"
+            data-htp-zone-id="4529854"
+            data-htp-channel-name="howtoai-bottom"
             style={{ width: "728px", maxWidth: "100%", height: "90px", margin: "0 auto" }}
           >
-            <div className="text-center">
-              <p className="text-gray-500 text-xs font-light opacity-50">Advertisement</p>
+            <div className="w-full flex flex-col items-center justify-center">
+              <div className="animate-pulse flex space-x-4 w-5/6 items-center">
+                <div className="rounded-md bg-gray-700 h-12 w-32"></div>
+                <div className="flex-1 space-y-2 py-1">
+                  <div className="h-2 bg-gray-700 rounded w-5/6"></div>
+                  <div className="h-2 bg-gray-700 rounded w-3/6"></div>
+                </div>
+              </div>
+              <p className="text-gray-500 text-xs font-light opacity-70 mt-1">Related offers</p>
             </div>
           </div>
         </div>

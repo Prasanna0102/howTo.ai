@@ -20,17 +20,25 @@ const InlineAdUnit: React.FC<InlineAdUnitProps> = ({ className = "" }) => {
         </div>
         
         <div 
-          className="ad-placeholder rounded-md flex items-center justify-center bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-800 overflow-hidden shadow-md"
+          className="ad-placeholder rounded-md flex items-center justify-center bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-700 overflow-hidden shadow-md"
           style={{ minHeight: "280px", opacity: 0.85 }}
         >
-          {/* Hilltopads Ad Container */}
+          {/* Ad Container with visual fallback */}
           <div 
             id="inline-1"
-            className="ad-unit"
+            className="ad-unit w-full h-full flex flex-col items-center justify-center"
+            data-htp-zone-id="4529854"
+            data-htp-channel-name="howtoai-inline"
             style={{ width: "336px", maxWidth: "100%", height: "280px", margin: "0 auto" }}
           >
-            <div className="text-center">
-              <p className="text-gray-400 text-xs opacity-60">Advertisement</p>
+            <div className="text-center w-full">
+              <div className="animate-pulse flex flex-col items-center space-y-3 p-4">
+                <div className="h-3 w-24 bg-gray-700 rounded"></div>
+                <div className="h-28 w-44 bg-gray-700 rounded-md"></div>
+                <div className="h-2 w-32 bg-gray-700 rounded"></div>
+                <div className="h-2 w-16 bg-gray-700 rounded"></div>
+              </div>
+              <p className="text-gray-400 text-xs opacity-70 mt-2">Sponsored content</p>
             </div>
           </div>
         </div>
