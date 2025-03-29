@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Guide, GuideSection, GuideContent as GuideContentType } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -18,20 +18,22 @@ const GuideContent: React.FC<GuideContentProps> = ({
   onDownload 
 }) => {
   const { title, content, createdAt } = guide;
-  // Ensure content has proper type structure and remove any potential data attributes
+  
+  // Ensure content has proper type structure
   const sections = (content && typeof content === 'object' && 'sections' in content) 
     ? (content as GuideContentType).sections 
     : [];
+    
   const formattedDate = new Date(createdAt).toLocaleDateString('en-US', { 
     year: 'numeric', 
     month: 'long', 
     day: 'numeric' 
   });
   
-  // Sample related guides (in a real app, these would be fetched from the backend)
+  // Sample related guides
   const relatedGuides = [
     {
-      title: `Troubleshooting common problems with ${title.split(' ').slice(-1)}`,
+      title: `Troubleshooting common issues with ${title.split(' ').slice(-1)}`,
       slug: '#',
       readTime: '5 min'
     },
@@ -42,38 +44,57 @@ const GuideContent: React.FC<GuideContentProps> = ({
     }
   ];
 
-  // Function to insert ads after specific sections
-  const renderSectionsWithAds = () => {
-    return sections.map((section: GuideSection, index: number) => {
-      const isAdPosition = (index + 1) % 2 === 0 && index !== sections.length - 1;
-      
+  // Render section content based on type
+  const renderSectionContent = (section: GuideSection, index: number): ReactNode => {
+    if (section.type === "list") {
       return (
-        <React.Fragment key={index}>
-          <div className="mb-6">
-            <h3 className="text-xl font-semibold mb-3">{section.title}</h3>
-            
-            {section.type === "list" ? (
-              <ul className="list-disc pl-5 space-y-2">
-                {section.items?.map((item: string, itemIndex: number) => (
-                  <li key={itemIndex}>{item}</li>
-                ))}
-              </ul>
-            ) : (
-              <div>
-                {section.content?.map((paragraph: string, paragraphIndex: number) => (
-                  <p key={paragraphIndex} className={paragraphIndex < section.content.length - 1 ? "mb-3" : ""}>
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-            )}
-          </div>
-          
-          {/* Insert ad unit after every second section */}
-          {isAdPosition && <InlineAdUnit />}
-        </React.Fragment>
+        <ul className="list-disc pl-5 space-y-2">
+          {section.items?.map((item: string, itemIndex: number) => (
+            <li key={itemIndex}>{item}</li>
+          ))}
+        </ul>
       );
+    } else {
+      return (
+        <div>
+          {section.content?.map((paragraph: string, paragraphIndex: number) => (
+            <p 
+              key={paragraphIndex} 
+              className={paragraphIndex < section.content.length - 1 ? "mb-3" : ""}
+            >
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      );
+    }
+  };
+  
+  // Generate content with properly placed ads
+  const renderContentWithAds = (): ReactNode[] => {
+    const result: ReactNode[] = [];
+    
+    sections.forEach((section: GuideSection, index: number) => {
+      // Add section content
+      result.push(
+        <div className="mb-6" key={`section-${index}`}>
+          <h3 className="text-xl font-semibold mb-3">{section.title}</h3>
+          {renderSectionContent(section, index)}
+        </div>
+      );
+      
+      // Add ad after complete sections (not mid-content)
+      const shouldShowAd = (index + 1) % 2 === 0 && index !== sections.length - 1;
+      if (shouldShowAd) {
+        result.push(
+          <div key={`ad-${index}`} className="my-8 border-t border-b border-gray-800 py-4">
+            <InlineAdUnit />
+          </div>
+        );
+      }
     });
+    
+    return result;
   };
 
   return (
@@ -91,9 +112,9 @@ const GuideContent: React.FC<GuideContentProps> = ({
           </div>
         </header>
         
-        {/* Guide Content with interspersed ads */}
+        {/* Guide Content with ads properly placed between sections */}
         <div className="prose prose-invert max-w-none">
-          {renderSectionsWithAds()}
+          {renderContentWithAds()}
         </div>
         
         {/* Guide Actions */}
