@@ -11,3 +11,29 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+@layer components {
+  .sticky-ad {
+    position: sticky;
+    top: 1rem;
+    height: auto;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .sticky-ad::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .sticky-ad {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  /* Make guide content the full height to match sidebar */
+  article.lg\:w-3\/4 {
+    min-height: 70vh;
+  }
+}

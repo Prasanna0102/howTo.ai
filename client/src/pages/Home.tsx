@@ -169,7 +169,7 @@ const Home = () => {
                     </div>
                   )}
                   
-                  <div className="flex flex-col lg:flex-row gap-8">
+                  <div className="flex flex-col lg:flex-row gap-8 min-h-[80vh]">
                     {/* Guide Content */}
                     <GuideContent 
                       guide={guide}
@@ -179,7 +179,7 @@ const Home = () => {
                     />
                     
                     {/* Side Ad Container */}
-                    <div className="lg:w-1/4 print:hidden">
+                    <div className="lg:w-1/4 print:hidden h-full">
                       <SideAdPanel />
                     </div>
                   </div>

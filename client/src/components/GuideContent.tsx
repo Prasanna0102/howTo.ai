@@ -18,8 +18,10 @@ const GuideContent: React.FC<GuideContentProps> = ({
   onDownload 
 }) => {
   const { title, content, createdAt } = guide;
-  // Ensure content has proper type structure
-  const sections = (content as GuideContentType).sections;
+  // Ensure content has proper type structure and remove any potential data attributes
+  const sections = (content && typeof content === 'object' && 'sections' in content) 
+    ? (content as GuideContentType).sections 
+    : [];
   const formattedDate = new Date(createdAt).toLocaleDateString('en-US', { 
     year: 'numeric', 
     month: 'long', 
@@ -57,13 +59,13 @@ const GuideContent: React.FC<GuideContentProps> = ({
                 ))}
               </ul>
             ) : (
-              <>
+              <div>
                 {section.content?.map((paragraph: string, paragraphIndex: number) => (
                   <p key={paragraphIndex} className={paragraphIndex < section.content.length - 1 ? "mb-3" : ""}>
                     {paragraph}
                   </p>
                 ))}
-              </>
+              </div>
             )}
           </div>
           
