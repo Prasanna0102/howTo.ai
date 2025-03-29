@@ -502,14 +502,10 @@ const Home = () => {
         </div>
       </main>
       
-      {/* Push Notification Ad Container */}
+      {/* Push Notification Ad Container - Positioned more subtly */}
       <div 
-        id="push-notification-container" 
-        className="py-4" 
-        data-ad-unit="true" 
-        data-ad-format="push" 
-        data-ad-container="true"
-        data-ad-slot="push-notification"
+        id="push-notification"
+        className="max-w-screen-lg mx-auto opacity-80 py-2 px-4"
       ></div>
       
       <Footer />

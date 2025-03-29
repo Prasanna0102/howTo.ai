@@ -12,21 +12,30 @@ const InlineAdUnit: React.FC<InlineAdUnitProps> = ({ className = "" }) => {
   }, []);
 
   return (
-    <div className={`my-8 rounded-lg overflow-hidden ${className}`}>
-      <div 
-        className="ad-placeholder flex items-center justify-center bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-700"
-        style={{ minHeight: "280px" }}
-      >
-        {/* Hilltopads Ad Container */}
+    <div className={`my-10 ${className}`}>
+      <div className="max-w-3xl mx-auto px-4">
+        <div className="border-t border-gray-800 my-2"></div>
+        <div className="flex justify-center items-center py-2">
+          <p className="text-xs text-gray-500 font-light tracking-wide px-3 italic">Related resources</p>
+        </div>
+        
         <div 
-          id="inline-1"
-          className="ad-unit"
-          style={{ width: "336px", maxWidth: "100%", height: "280px", margin: "0 auto" }}
+          className="ad-placeholder rounded-md flex items-center justify-center bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-800 overflow-hidden shadow-md"
+          style={{ minHeight: "280px", opacity: 0.85 }}
         >
-          <div className="text-center">
-            <p className="text-gray-400 text-xs sm:text-sm">Inline Advertisement</p>
+          {/* Hilltopads Ad Container */}
+          <div 
+            id="inline-1"
+            className="ad-unit"
+            style={{ width: "336px", maxWidth: "100%", height: "280px", margin: "0 auto" }}
+          >
+            <div className="text-center">
+              <p className="text-gray-400 text-xs opacity-60">Advertisement</p>
+            </div>
           </div>
         </div>
+        
+        <div className="border-t border-gray-800 mt-3"></div>
       </div>
     </div>
   );
