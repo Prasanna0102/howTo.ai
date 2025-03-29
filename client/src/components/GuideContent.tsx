@@ -1,5 +1,5 @@
 import React from "react";
-import { Guide, GuideSection } from "@shared/schema";
+import { Guide, GuideSection, GuideContent as GuideContentType } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 
@@ -109,10 +109,10 @@ const GuideContent: React.FC<GuideContentProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {relatedGuides.map((relatedGuide, index) => (
             <Link href={relatedGuide.slug} key={index}>
-              <a className="block bg-secondary/20 border border-gray-800 p-4 rounded-lg hover:bg-secondary/30 transition-colors">
+              <div className="block bg-secondary/20 border border-gray-800 p-4 rounded-lg hover:bg-secondary/30 transition-colors cursor-pointer">
                 <h4 className="font-medium mb-1">{relatedGuide.title}</h4>
                 <p className="text-sm text-gray-400">{relatedGuide.readTime} read</p>
-              </a>
+              </div>
             </Link>
           ))}
         </div>

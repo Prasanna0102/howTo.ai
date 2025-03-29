@@ -22,25 +22,25 @@ const Footer = () => {
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Resources</h3>
               <ul className="space-y-3">
-                <li><Link href="#"><a className="text-gray-400 hover:text-white transition-colors">Blog</a></Link></li>
-                <li><Link href="#"><a className="text-gray-400 hover:text-white transition-colors">Examples</a></Link></li>
-                <li><Link href="#"><a className="text-gray-400 hover:text-white transition-colors">Help Center</a></Link></li>
+                <li><Link href="#"><div className="text-gray-400 hover:text-white transition-colors cursor-pointer">Blog</div></Link></li>
+                <li><Link href="#"><div className="text-gray-400 hover:text-white transition-colors cursor-pointer">Examples</div></Link></li>
+                <li><Link href="#"><div className="text-gray-400 hover:text-white transition-colors cursor-pointer">Help Center</div></Link></li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Company</h3>
               <ul className="space-y-3">
-                <li><Link href="#"><a className="text-gray-400 hover:text-white transition-colors">About</a></Link></li>
-                <li><Link href="#"><a className="text-gray-400 hover:text-white transition-colors">Careers</a></Link></li>
-                <li><Link href="#"><a className="text-gray-400 hover:text-white transition-colors">Contact</a></Link></li>
+                <li><Link href="#"><div className="text-gray-400 hover:text-white transition-colors cursor-pointer">About</div></Link></li>
+                <li><Link href="#"><div className="text-gray-400 hover:text-white transition-colors cursor-pointer">Careers</div></Link></li>
+                <li><Link href="#"><div className="text-gray-400 hover:text-white transition-colors cursor-pointer">Contact</div></Link></li>
               </ul>
             </div>
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Legal</h3>
               <ul className="space-y-3">
-                <li><Link href="#"><a className="text-gray-400 hover:text-white transition-colors">Privacy</a></Link></li>
-                <li><Link href="#"><a className="text-gray-400 hover:text-white transition-colors">Terms</a></Link></li>
-                <li><Link href="#"><a className="text-gray-400 hover:text-white transition-colors">Cookies</a></Link></li>
+                <li><Link href="#"><div className="text-gray-400 hover:text-white transition-colors cursor-pointer">Privacy</div></Link></li>
+                <li><Link href="#"><div className="text-gray-400 hover:text-white transition-colors cursor-pointer">Terms</div></Link></li>
+                <li><Link href="#"><div className="text-gray-400 hover:text-white transition-colors cursor-pointer">Cookies</div></Link></li>
               </ul>
             </div>
           </div>

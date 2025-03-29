@@ -37,7 +37,7 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
 export type InsertGuide = z.infer<typeof insertGuideSchema>;
-export type Guide = typeof guides.$inferSelect;
+export type Guide = typeof guides.$inferSelect & { content: GuideContent };
 
 // Define the structure of a guide section
 export interface GuideSection {
@@ -45,6 +45,12 @@ export interface GuideSection {
   content: string[];
   type?: "text" | "list";
   items?: string[];
+}
+
+// Define the structure of guide content
+export interface GuideContent {
+  title: string;
+  sections: GuideSection[];
 }
 
 // Define the structure for API request to generate a guide
