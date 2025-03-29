@@ -1,0 +1,90 @@
+8:55:20 PM: Netlify Build                                                 
+8:55:20 PM: ────────────────────────────────────────────────────────────────
+8:55:20 PM: ​
+8:55:20 PM: ❯ Version
+8:55:20 PM:   @netlify/build 30.0.6
+8:55:20 PM: ​
+8:55:20 PM: ❯ Flags
+8:55:20 PM:   accountId: 67e67f0a589a1d5a97522f0a
+8:55:20 PM:   baseRelDir: true
+8:55:20 PM:   buildId: 67e81079c3c77d7273023f80
+8:55:20 PM:   deployId: 67e81079c3c77d7273023f82
+8:55:20 PM: ​
+8:55:20 PM: ❯ Current directory
+8:55:20 PM:   /opt/build/repo
+8:55:20 PM: ​
+8:55:20 PM: ❯ Config file
+8:55:20 PM:   /opt/build/repo/netlify.toml
+8:55:20 PM: ​
+8:55:20 PM: ❯ Context
+8:55:20 PM:   production
+8:55:20 PM: ​
+8:55:20 PM: build.command from netlify.toml                               
+8:55:20 PM: ────────────────────────────────────────────────────────────────
+8:55:20 PM: ​
+8:55:20 PM: $ npm run build
+8:55:20 PM: > rest-express@1.0.0 build
+8:55:20 PM: > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+8:55:20 PM: vite v5.4.14 building for production...
+8:55:20 PM: transforming...
+8:55:26 PM: ✓ 2424 modules transformed.
+8:55:26 PM: rendering chunks...
+8:55:26 PM: computing gzip size...
+8:55:26 PM: ../dist/public/index.html                            4.24 kB │ gzip:   1.48 kB
+8:55:26 PM: ../dist/public/assets/index-BikL8ELR.css            74.47 kB │ gzip:  12.59 kB
+8:55:26 PM: ../dist/public/assets/purify.es-D-QPbZEk.js         21.82 kB │ gzip:   8.60 kB
+8:55:26 PM: ../dist/public/assets/index.es-C06qAQNR.js         149.98 kB │ gzip:  51.25 kB
+8:55:26 PM: ../dist/public/assets/html2canvas.esm-CBrSDip1.js  201.42 kB │ gzip:  48.03 kB
+8:55:26 PM: ../dist/public/assets/index-BApvnLbO.js            795.55 kB │ gzip: 257.52 kB
+8:55:26 PM: 
+8:55:26 PM: (!) Some chunks are larger than 500 kB after minification. Consider:
+8:55:26 PM: - Using dynamic import() to code-split the application
+8:55:26 PM: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+8:55:26 PM: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+8:55:26 PM: ✓ built in 5.89s
+8:55:26 PM:   dist/index.js  20.1kb
+8:55:26 PM: ⚡ Done in 10ms
+8:55:26 PM: ​
+8:55:26 PM: (build.command completed in 6.4s)
+8:55:26 PM: ​
+8:55:26 PM: Configuration error                                           
+8:55:26 PM: ────────────────────────────────────────────────────────────────
+8:55:26 PM: ​
+8:55:26 PM:   Error message
+8:55:26 PM:   The Netlify Functions setting should target a directory, not a regular file: netlify.toml
+8:55:26 PM: ​
+8:55:26 PM:   Resolved config
+8:55:26 PM:   build:
+8:55:26 PM:     base: /opt/build/repo
+8:55:26 PM:     command: npm run build
+8:55:26 PM:     commandOrigin: config
+8:55:26 PM:     environment:
+8:55:26 PM:       - ANTHROPIC_API_KEY
+8:55:26 PM:       - NODE_VERSION
+8:55:26 PM:     publish: /opt/build/repo/dist
+8:55:26 PM:     publishOrigin: config
+8:55:26 PM:   functionsDirectory: /opt/build/repo/netlify.toml
+8:55:26 PM:   headers:
+8:55:27 PM:     - for: /assets/*
+      values:
+        Cache-Control: public, max-age=31536000, immutable
+    - for: '*.{jpg,jpeg,png,svg,gif,webp}'
+      values:
+        Cache-Control: public, max-age=31536000, immutable
+    - for: /*
+      values:
+        Content-Security-Policy: 'default-src ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''; style-src ''self'' ''unsafe-inline''; img-src ''self'' data: blob:; connect-src ''self'' https://api.anthropic.com; font-src ''self''; object-src ''none''; media-src ''self''; frame-src ''self'';'
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+        X-Frame-Options: DENY
+        X-XSS-Protection: 1; mode=block
+  headersOrigin: config
+  redirects:
+    - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+8:55:27 PM: Build failed due to a user error: Build script returned non-zero exit code: 2
+8:55:27 PM: Failing build: Failed to build site
+8:55:27 PM: Finished processing build request in 30.835s
+8:55:27 PM: Failed during stage 'building site': Build script returned non-zero exit code: 2

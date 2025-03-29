@@ -4,16 +4,26 @@
   base = "/"
 
   # Directory that contains the deploy-ready files
-  publish = "dist"
+  publish = "dist/public"
 
   # Default build command
-  command = "npm run build"
+  command = "bash ./netlify-build.sh"
 
 [build.environment]
   # Set Node.js version
   NODE_VERSION = "20"
 
-# Redirect all paths to index.html for SPA routing
+[functions]
+  # Directory with serverless functions
+  directory = "dist/functions"
+
+# API redirects to Netlify Function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# Redirect all other paths to index.html for SPA routing
 [[redirects]]
   from = "/*"
   to = "/index.html"

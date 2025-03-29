@@ -7,12 +7,29 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
+// Helper function to determine if we're on Netlify production
+const isNetlify = () => {
+  return window.location.hostname.includes('.netlify.app') || 
+         process.env.NODE_ENV === 'production';
+};
+
+// Helper to get the appropriate API URL based on environment
+const getApiUrl = (endpoint: string) => {
+  // If this is a Netlify deployment, use the Netlify Functions path
+  if (isNetlify() && endpoint.startsWith('/api/')) {
+    return endpoint; // We're using redirects in netlify.toml to handle this
+  }
+  return endpoint;
+};
+
 export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  const res = await fetch(url, {
+  const apiUrl = getApiUrl(url);
+  
+  const res = await fetch(apiUrl, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
     body: data ? JSON.stringify(data) : undefined,
@@ -29,7 +46,9 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey[0] as string, {
+    const apiUrl = getApiUrl(queryKey[0] as string);
+    
+    const res = await fetch(apiUrl, {
       credentials: "include",
     });
 
