@@ -5,18 +5,27 @@
  */
 
 /**
- * Refreshes ads by calling the ad provider's refresh function if available
+ * Refreshes ads by calling the Hilltopads refresh function if available
  * This should be called whenever page content changes substantially
  */
 export function refreshAds() {
   try {
-    // Attempt to access the ad provider's refresh function
-    // Different ad networks have different methods - this is a common pattern
-    if (window.groptoxegri && typeof window.groptoxegri.refresh === 'function') {
+    // First, ensure that the ad containers are properly configured
+    enhanceAdContainers();
+
+    // Try to call HTP's refresh function if it exists
+    if (window.HTP && typeof window.HTP.refreshAllSlots === 'function') {
+      window.HTP.refreshAllSlots();
+      console.log('Hilltopads refreshed');
+    } 
+    // Fallback to using the direct groptoxegri if available
+    else if (window.groptoxegri && typeof window.groptoxegri.refresh === 'function') {
       window.groptoxegri.refresh();
-      console.log('Ads refreshed');
-    } else {
-      // If the refresh function isn't available, we can trigger a reload of the ad scripts
+      console.log('Ads refreshed via groptoxegri');
+    }
+    // Last resort - reload scripts
+    else {
+      // If no refresh function is available, we can trigger a reload of the ad scripts
       console.log('Ad refresh function not available, reloading scripts');
       reloadAdScripts();
     }
@@ -31,14 +40,19 @@ export function refreshAds() {
  */
 function reloadAdScripts() {
   try {
-    // Define the ad script URLs (same as in index.html)
+    // Primary Hilltopads script
+    const hilltopScript = document.createElement('script');
+    hilltopScript.src = "//hilltopads.com/publisher/howtoai";
+    hilltopScript.async = true;
+    document.head.appendChild(hilltopScript);
+
+    // Backup groptoxegri scripts
     const adScriptUrls = [
       "//groptoxegri.com/byXGV.sWdJGHlo0EYOWvcJ/Xe/mo9ou_ZYUclskOPhTSYUyPMRjoMG1DNsTmA/tiNOjYIzyZMRzfU/1vMUQz",
-      "//groptoxegri.com/b/XFVMs/d.Gvl/0GYbWQcY/jeymD9JuqZuUulhk/P_TVYNybM/joMY1nNOjZAitbNojHIgy/MhzqUB2FMGQ-",
       "//groptoxegri.com/buX/V.sSdCGxlD0xYhWAcc/jeBmn9IufZpUpl/kWP/TEYCynMKjmMz5vMFjYMdtSNmj-IZy_MyzTk/ydNoAW"
     ];
 
-    // Create and append new script tags
+    // Create and append backup script tags
     adScriptUrls.forEach(url => {
       const script = document.createElement('script');
       script.src = url;
@@ -54,37 +68,25 @@ function reloadAdScripts() {
 }
 
 /**
- * Add additional ad container attributes to ensure compatibility with the ad network
+ * Add additional attributes to ensure compatibility with the Hilltopads network
  */
 function enhanceAdContainers() {
   try {
-    // Select all elements that should be ad containers
-    const adContainers = document.querySelectorAll('.ad-placeholder, [data-ad-slot]');
+    // Make sure htpSlots is defined
+    window.htpSlots = window.htpSlots || [];
+    window.htAdSlots = window.htAdSlots || [];
     
-    adContainers.forEach(container => {
-      // Make sure all ad containers have the necessary attributes
-      if (!container.hasAttribute('data-ad-unit')) {
-        container.setAttribute('data-ad-unit', 'true');
-      }
-      
-      if (!container.hasAttribute('data-ad-container')) {
-        container.setAttribute('data-ad-container', 'true');
-      }
-      
-      // Set format based on container dimensions if not already set
-      if (!container.hasAttribute('data-ad-format')) {
-        const rect = container.getBoundingClientRect();
-        if (rect.width > rect.height * 1.5) {
-          container.setAttribute('data-ad-format', 'horizontal');
-        } else if (rect.height > rect.width * 1.5) {
-          container.setAttribute('data-ad-format', 'vertical');
-        } else {
-          container.setAttribute('data-ad-format', 'rectangle');
-        }
-      }
-    });
-
-    console.log('Ad containers enhanced');
+    // Make sure ad containers are properly set up
+    const adContainers = document.querySelectorAll('.ad-unit');
+    
+    if (adContainers.length > 0) {
+      console.log('Ad containers enhanced');
+    }
+    
+    // Update route information for SPA ad tracking
+    if (window.HTP && typeof window.HTP.updateRouteInfo === 'function') {
+      window.HTP.updateRouteInfo(window.location.pathname);
+    }
   } catch (error) {
     console.error('Error enhancing ad containers:', error);
   }
@@ -95,6 +97,8 @@ function enhanceAdContainers() {
  * This should be called when the application first loads
  */
 export function initializeAdService() {
+  console.log('Initializing ad service');
+  
   // Define a global namespace for our ad service
   if (!window.HowToAI) {
     window.HowToAI = {
@@ -113,18 +117,21 @@ export function initializeAdService() {
     enhanceAdContainers();
   }
 
-  // Also enhance containers when content changes (debounced)
-  let enhanceTimeout: ReturnType<typeof setTimeout> | null = null;
-  const observer = new MutationObserver(() => {
-    if (enhanceTimeout) {
-      clearTimeout(enhanceTimeout);
+  // Monitor route changes for SPA to refresh ads
+  let lastPath = window.location.pathname;
+  const intervalId = setInterval(() => {
+    const currentPath = window.location.pathname;
+    if (currentPath !== lastPath) {
+      console.log('Route changed, refreshing ads');
+      lastPath = currentPath;
+      enhanceAdContainers();
+      refreshAds();
     }
-    enhanceTimeout = setTimeout(enhanceAdContainers, 500);
-  });
-
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
+  }, 500);
+  
+  // Cleanup on unmount
+  window.addEventListener('beforeunload', () => {
+    clearInterval(intervalId);
   });
 
   // Attach to global error event to monitor ad-related errors
@@ -140,6 +147,12 @@ export function initializeAdService() {
 // Define global types
 declare global {
   interface Window {
+    htpSlots: any[];
+    htAdSlots: any[];
+    HTP?: {
+      refreshAllSlots?: () => void;
+      updateRouteInfo?: (path: string) => void;
+    };
     groptoxegri?: {
       refresh?: () => void;
     };
@@ -153,12 +166,14 @@ declare global {
   }
 }
 
-// Helper function to check if an error event is related to our ad provider
+// Helper function to check if an error event is related to our ad providers
 export function isAdRelatedError(event: ErrorEvent): boolean {
   if (typeof event.message !== 'string') return false;
   
   const message = event.message.toLowerCase();
   return !!(
+    message.includes('htp') ||
+    message.includes('hilltop') ||
     message.includes('groptoxegri') || 
     message.includes('ad') || 
     message.includes('advertisement')

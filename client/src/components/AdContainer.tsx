@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { refreshAds } from "@/services/adService";
 
 interface AdContainerProps {
   type: "initial" | "side";
@@ -6,8 +7,12 @@ interface AdContainerProps {
 }
 
 const AdContainer: React.FC<AdContainerProps> = ({ type, className = "" }) => {
-  // This component displays ad containers
-  // In a real implementation, this would be integrated with an ad network like Mediavine
+  // This component displays ad containers integrated with Hilltopads
+  
+  useEffect(() => {
+    // Refresh ads when the container mounts
+    refreshAds();
+  }, []);
   
   if (type === "initial") {
     return (
@@ -19,16 +24,18 @@ const AdContainer: React.FC<AdContainerProps> = ({ type, className = "" }) => {
           {[1, 2, 3].map((adIndex) => (
             <div 
               key={adIndex}
-              id={`ad-initial-${adIndex}`}
-              className="ad-placeholder ad-unit-initial h-60 rounded-lg flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"
-              data-ad-slot={`initial-${adIndex}`}
-              data-ad-unit="true"
-              data-ad-format="rectangle"
-              data-ad-container="true"
+              className="ad-placeholder rounded-lg flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"
+              style={{ minHeight: "250px" }}
             >
-              <div className="text-center">
-                <div className="text-primary mb-2"><i className="fas fa-ad text-2xl"></i></div>
-                <p className="text-gray-400 text-sm">Advertisement</p>
+              {/* Hilltopads Ad Container */}
+              <div 
+                id={`initial-${adIndex}`}
+                className="ad-unit"
+                style={{ width: "300px", height: "250px", margin: "0 auto" }}
+              >
+                <div className="text-center">
+                  <p className="text-gray-400 text-sm">Advertisement</p>
+                </div>
               </div>
             </div>
           ))}
@@ -49,16 +56,18 @@ const AdContainer: React.FC<AdContainerProps> = ({ type, className = "" }) => {
           {[1, 2, 3].map((adIndex) => (
             <div 
               key={adIndex}
-              id={`ad-side-${adIndex}`}
-              className="ad-placeholder ad-unit-side h-80 rounded-lg flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"
-              data-ad-slot={`side-${adIndex}`}
-              data-ad-unit="true"
-              data-ad-format="rectangle"
-              data-ad-container="true"
+              className="ad-placeholder rounded-lg flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700"
+              style={{ minHeight: "250px" }}
             >
-              <div className="text-center">
-                <div className="text-primary mb-2"><i className="fas fa-ad text-2xl"></i></div>
-                <p className="text-gray-400 text-sm">Advertisement</p>
+              {/* Hilltopads Ad Container */}
+              <div 
+                id={`side-${adIndex}`}
+                className="ad-unit"
+                style={{ width: "300px", height: "250px", margin: "0 auto" }}
+              >
+                <div className="text-center">
+                  <p className="text-gray-400 text-sm">Advertisement</p>
+                </div>
               </div>
             </div>
           ))}

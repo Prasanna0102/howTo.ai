@@ -66,7 +66,75 @@
     }
   </style>
   
-  <!-- Ad Scripts - Placed in head for earlier loading -->
+  <!-- HilltopAds - Main ad tag, includes all ad types -->
+  <script>
+    window.htpSlots = window.htpSlots || [];
+    window.htAdSlots = window.htAdSlots || [];
+    
+    // Standard Banner Ads
+    htpSlots.push({
+      id: 'initial-1', // Initial ad slot 1
+      position: 'banner', // Position type
+      sizes: [[300, 250], [336, 280]] // Common medium rectangle sizes
+    });
+    
+    htpSlots.push({
+      id: 'initial-2', // Initial ad slot 2
+      position: 'banner',
+      sizes: [[300, 250], [336, 280]]
+    });
+    
+    htpSlots.push({
+      id: 'initial-3', // Initial ad slot 3
+      position: 'banner',
+      sizes: [[300, 250], [336, 280]]
+    });
+    
+    // Side panel ads
+    htpSlots.push({
+      id: 'side-1', // Side panel ad 1
+      position: 'sidebar',
+      sizes: [[300, 600], [160, 600], [300, 250]]
+    });
+    
+    htpSlots.push({
+      id: 'side-2', // Side panel ad 2
+      position: 'sidebar',
+      sizes: [[300, 250]]
+    });
+    
+    htpSlots.push({
+      id: 'side-3', // Side panel ad 3
+      position: 'sidebar',
+      sizes: [[300, 250]]
+    });
+    
+    // Inline ads
+    htpSlots.push({
+      id: 'inline-1', // Inline ad 1
+      position: 'incontent',
+      sizes: [[300, 250], [336, 280]]
+    });
+    
+    // Bottom container ad
+    htpSlots.push({
+      id: 'bottom-1', // Bottom ad
+      position: 'footer',
+      sizes: [[970, 90], [728, 90], [320, 50]]
+    });
+    
+    // Push notification zone
+    htpSlots.push({
+      id: 'push-notification',
+      position: 'push',
+      type: 'push'
+    });
+  </script>
+  
+  <!-- Load the Hilltopads library -->
+  <script async src="//hilltopads.com/publisher/howtoai"></script>
+  
+  <!-- Fallback ad delivery via groptoxegri.com (if needed) -->
   <script>
   (function(aczsz){
   var d = document,
@@ -77,20 +145,18 @@
   s.async = true;
   s.referrerPolicy = 'no-referrer-when-downgrade';
   l.parentNode.insertBefore(s, l);
-  })({})
-  </script>
-
-  <script>
-  (function(jjp){
-  var d = document,
-      s = d.createElement('script'),
-      l = d.scripts[d.scripts.length - 1];
-  s.settings = jjp || {};
-  s.src = "//groptoxegri.com/b/XFVMs/d.Gvl/0GYbWQcY/jeymD9JuqZuUulhk/P_TVYNybM/joMY1nNOjZAitbNojHIgy/MhzqUB2FMGQ-";
-  s.async = true;
-  s.referrerPolicy = 'no-referrer-when-downgrade';
-  l.parentNode.insertBefore(s, l);
-  })({})
+  })({
+    zoneIds: {
+      'initial-1': 4529846,
+      'initial-2': 4529847,
+      'initial-3': 4529848,
+      'side-1': 4529849,
+      'side-2': 4529850,
+      'side-3': 4529851,
+      'inline-1': 4529852,
+      'bottom-1': 4529853
+    }
+  })
   </script>
   
   <!-- In-page push notification ad script -->
@@ -104,7 +170,9 @@
   s.async = true;
   s.referrerPolicy = 'no-referrer-when-downgrade';
   l.parentNode.insertBefore(s, l);
-  })({})
+  })({
+    pushZoneId: 4529854
+  })
   </script>
 </head>
 <body>
