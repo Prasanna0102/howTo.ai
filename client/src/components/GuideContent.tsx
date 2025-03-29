@@ -17,6 +17,8 @@ const GuideContent: React.FC<GuideContentProps> = ({
   onDownload 
 }) => {
   const { title, content, createdAt } = guide;
+  // Ensure content has proper type structure
+  const sections = (content as GuideContentType).sections;
   const formattedDate = new Date(createdAt).toLocaleDateString('en-US', { 
     year: 'numeric', 
     month: 'long', 
@@ -52,7 +54,7 @@ const GuideContent: React.FC<GuideContentProps> = ({
         
         {/* Guide Content */}
         <div className="prose prose-invert max-w-none">
-          {content.sections.map((section: GuideSection, index: number) => (
+          {sections.map((section: GuideSection, index: number) => (
             <div className="mb-6" key={index}>
               <h3 className="text-xl font-semibold mb-3">{section.title}</h3>
               
