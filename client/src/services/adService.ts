@@ -34,7 +34,8 @@ function reloadAdScripts() {
     // Define the ad script URLs (same as in index.html)
     const adScriptUrls = [
       "//groptoxegri.com/byXGV.sWdJGHlo0EYOWvcJ/Xe/mo9ou_ZYUclskOPhTSYUyPMRjoMG1DNsTmA/tiNOjYIzyZMRzfU/1vMUQz",
-      "//groptoxegri.com/b/XFVMs/d.Gvl/0GYbWQcY/jeymD9JuqZuUulhk/P_TVYNybM/joMY1nNOjZAitbNojHIgy/MhzqUB2FMGQ-"
+      "//groptoxegri.com/b/XFVMs/d.Gvl/0GYbWQcY/jeymD9JuqZuUulhk/P_TVYNybM/joMY1nNOjZAitbNojHIgy/MhzqUB2FMGQ-",
+      "//groptoxegri.com/buX/V.sSdCGxlD0xYhWAcc/jeBmn9IufZpUpl/kWP/TEYCynMKjmMz5vMFjYMdtSNmj-IZy_MyzTk/ydNoAW"
     ];
 
     // Create and append new script tags

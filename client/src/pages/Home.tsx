@@ -502,6 +502,16 @@ const Home = () => {
         </div>
       </main>
       
+      {/* Push Notification Ad Container */}
+      <div 
+        id="push-notification-container" 
+        className="py-4" 
+        data-ad-unit="true" 
+        data-ad-format="push" 
+        data-ad-container="true"
+        data-ad-slot="push-notification"
+      ></div>
+      
       <Footer />
       
       {/* Share Modal */}
