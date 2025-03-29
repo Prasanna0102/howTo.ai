@@ -1,0 +1,146 @@
+
+> rest-express@1.0.0 dev
+2:13:17 PM [express] serving on port 5000
+2:13:29 PM [express] GET /api/guides/how-to-make-delicious-homemade-pasta-from-scratch--dhaTWOIB 404…
+Raw API response: ```json
+{
+  "title": "How to Tie Shoelaces: A Simple Step-by-Step Guide",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content": [
+        "Tying shoelaces is a ba...
+Extracted JSON: {
+  "title": "How to Tie Shoelaces: A Simple Step-by-Step Guide",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content": [
+        "Tying shoelaces is a basic life...
+Successfully parsed and validated JSON
+2:14:09 PM [express] POST /api/guides/generate 200 in 19197ms :: {"guide":{"id":1,"query":"How do I …
+2:14:09 PM [express] GET /api/guides/how-to-tie-shoelaces-a-simple-step-by-step-guide-bqNZs5gv 200 i…
+2:14:09 PM [express] GET /api/guides/recent/list 200 in 0ms :: {"guides":[{"query":"How do I tie my …
+Raw API response: ```json
+{
+  "title": "How to Change a Flat Tire: Complete Step-by-Step Guide",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content": ["Getting a flat tire can be ...
+Extracted JSON: {
+  "title": "How to Change a Flat Tire: Complete Step-by-Step Guide",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content": ["Getting a flat tire can be stressfu...
+Successfully parsed and validated JSON
+2:15:08 PM [express] POST /api/guides/generate 200 in 20499ms :: {"guide":{"id":2,"query":"How can I…
+2:15:08 PM [express] GET /api/guides/recent/list 200 in 1ms :: {"guides":[{"query":"How can I change…
+Raw API response: ```json
+{
+  "title": "How to Build a Small Raised Garden Bed: A Complete Step-by-Step Guide",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content": [
+        "Rai...
+Extracted JSON: {
+  "title": "How to Build a Small Raised Garden Bed: A Complete Step-by-Step Guide",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content": [
+        "Raised gard...
+Successfully parsed and validated JSON
+2:16:14 PM [express] POST /api/guides/generate 200 in 29158ms :: {"guide":{"id":3,"query":"How do I …
+2:16:15 PM [express] GET /api/guides/recent/list 200 in 1ms :: {"guides":[{"query":"How do I build a…
+Raw API response: ```json
+{
+  "title": "How to Learn Basic HTML and CSS to Create Your Personal Webpage: A Beginner's Guide",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content": ...
+Extracted JSON: {
+  "title": "How to Learn Basic HTML and CSS to Create Your Personal Webpage: A Beginner's Guide",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content": [
+      ...
+Initial JSON parse failed, trying additional fixes: SyntaxError: Expected ',' or ']' after array element in JSON at position 3783
+    at JSON.parse (<anonymous>)
+    at <anonymous> (/home/runner/workspace/server/routes.ts:141:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+JSON parsing failed after all attempts
+Failed to parse JSON from API response: SyntaxError: Expected ',' or '}' after property value in JSON at position 90
+    at JSON.parse (<anonymous>)
+    at <anonymous> (/home/runner/workspace/server/routes.ts:167:34)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+Using fallback content structure
+2:17:01 PM [express] POST /api/guides/generate 200 in 29534ms :: {"guide":{"id":4,"query":"How do I …
+2:17:02 PM [express] GET /api/guides/recent/list 200 in 0ms :: {"guides":[{"query":"How do I learn b…
+Raw API response: ```json
+{
+  "title": "How to Learn Basic HTML and CSS to Create Your Personal Webpage: A Complete Beginner's Guide",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "c...
+Extracted JSON: {
+  "title": "How to Learn Basic HTML and CSS to Create Your Personal Webpage: A Complete Beginner's Guide",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content":...
+Initial JSON parse failed, trying additional fixes: SyntaxError: Expected ',' or ']' after array element in JSON at position 714
+    at JSON.parse (<anonymous>)
+    at <anonymous> (/home/runner/workspace/server/routes.ts:141:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+JSON parsing failed after all attempts
+Failed to parse JSON from API response: SyntaxError: Expected ',' or '}' after property value in JSON at position 99
+    at JSON.parse (<anonymous>)
+    at <anonymous> (/home/runner/workspace/server/routes.ts:167:34)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+Using fallback content structure
+2:17:39 PM [express] POST /api/guides/generate 200 in 27945ms :: {"guide":{"id":5,"query":"How do I …
+2:17:40 PM [express] GET /api/guides/recent/list 200 in 1ms :: {"guides":[{"query":"How do I learn b…
+Raw API response: ```json
+{
+  "title": "Complete Guide to Starting a Podcast: Recording, Editing, and Publishing for Beginners",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content...
+Extracted JSON: {
+  "title": "Complete Guide to Starting a Podcast:"Recording", Editing, and Publishing for Beginners",
+  "sections": [
+    {
+      "title": "Introduction",
+      "type": "text",
+      "content": [
+  ...
+Initial JSON parse failed, trying additional fixes: SyntaxError: Expected ',' or '}' after property value in JSON at position 52
+    at JSON.parse (<anonymous>)
+    at <anonymous> (/home/runner/workspace/server/routes.ts:141:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+JSON parsing failed after all attempts
+Failed to parse JSON from API response: SyntaxError: Expected ',' or '}' after property value in JSON at position 52
+    at JSON.parse (<anonymous>)
+    at <anonymous> (/home/runner/workspace/server/routes.ts:167:34)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+Using fallback content structure
+2:18:30 PM [express] POST /api/guides/generate 200 in 33252ms :: {"guide":{"id":6,"query":"How do I …
+2:18:30 PM [express] GET /api/guides/recent/list 200 in 0ms :: {"guides":[{"query":"How do I start a…

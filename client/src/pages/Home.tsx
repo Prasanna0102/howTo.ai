@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRoute, useLocation } from "wouter";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Guide } from "@shared/schema";
@@ -18,6 +18,9 @@ import Footer from "@/components/Footer";
 import BottomAdContainer from "@/components/BottomAdContainer";
 import PopularGuides from "@/components/PopularGuides";
 
+// Animation imports
+import { motion, AnimatePresence } from "framer-motion";
+
 const Home = () => {
   const [match, params] = useRoute("/guide/:slug");
   const [, setLocation] = useLocation();
@@ -29,17 +32,35 @@ const Home = () => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
   
-  // Mutation for generating a guide
+  // Query for recent guides - displayed during loading
+  const recentGuidesQuery = useQuery({
+    queryKey: ['/api/guides/recent/list'],
+    queryFn: async () => {
+      const response = await fetch('/api/guides/recent/list?limit=3');
+      if (!response.ok) {
+        throw new Error('Failed to fetch recent guides');
+      }
+      const data = await response.json();
+      return data.guides as Guide[];
+    },
+    enabled: true, // Always load recent guides for better UX during loading states
+  });
+
+  // Mutation for generating a guide with optimistic UI updates
   const generateGuideMutation = useMutation({
     mutationFn: async (query: string) => {
+      // Show loading state immediately
+      setShowResults(true);
+      
+      // Keep showing ads during loading
+      setShowInitialAds(false);
+      
       const response = await apiRequest("POST", "/api/guides/generate", { query });
       const data = await response.json();
       return data.guide as Guide;
     },
     onSuccess: (data) => {
       setGuide(data);
-      setShowResults(true);
-      setShowInitialAds(false);
       
       // Update URL with the guide slug
       setLocation(`/guide/${data.slug}`);
@@ -56,6 +77,10 @@ const Home = () => {
         variant: "destructive"
       });
       console.error("Error generating guide:", error);
+      
+      // Reset UI state on error
+      setShowResults(false);
+      setShowInitialAds(true);
     }
   });
   
@@ -145,56 +170,149 @@ const Home = () => {
             <AdContainer type="initial" />
           )}
           
-          {/* Results Section (shown after generating a guide) */}
-          {showResults && guide && (
+          {/* Results Section */}
+          {showResults && (
             <section className="py-8 print:py-0">
-              {/* Loading State */}
-              {generateGuideMutation.isPending && (
-                <div className="text-center py-10">
-                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mb-4"></div>
-                  <p className="text-xl">Generating your expert guide...</p>
-                </div>
-              )}
-              
-              {/* Results Layout */}
-              {!generateGuideMutation.isPending && (
-                <>
-                  {/* Simplified search when guide is shown */}
-                  {match && params?.slug && (
-                    <div className="mb-8 max-w-3xl mx-auto md:mx-0 print:hidden">
-                      <SearchForm 
-                        onSubmit={handleSubmit} 
-                        isLoading={generateGuideMutation.isPending} 
-                      />
-                    </div>
-                  )}
-                  
-                  <div className="flex flex-col lg:flex-row gap-8 min-h-[80vh]">
-                    {/* Guide Content */}
-                    <GuideContent 
-                      guide={guide}
-                      onShare={handleShare}
-                      onPrint={handlePrint}
-                      onDownload={handleDownload}
+              {/* Always show search form at top when in results mode */}
+              <AnimatePresence>
+                {match && params?.slug && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-8 max-w-3xl mx-auto md:mx-0 print:hidden"
+                  >
+                    <SearchForm 
+                      onSubmit={handleSubmit} 
+                      isLoading={generateGuideMutation.isPending} 
                     />
-                    
-                    {/* Side Ad Container */}
-                    <div className="lg:w-1/4 print:hidden h-full">
-                      <SideAdPanel />
-                    </div>
-                  </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
                   
-                  {/* Bottom Ad Container */}
-                  <div className="print:hidden">
-                    <BottomAdContainer />
-                  </div>
-                  
-                  {/* Popular Guides - Moved below the main content */}
-                  <div className="print:hidden">
-                    <PopularGuides />
-                  </div>
-                </>
-              )}
+              <div className="flex flex-col lg:flex-row gap-8 min-h-[80vh]">
+                {/* Main Content Area - Show loading animation or guide content */}
+                <div className="lg:w-3/4">
+                  {generateGuideMutation.isPending ? (
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="bg-secondary/20 border border-gray-800 rounded-lg p-6 h-full"
+                    >
+                      <div className="flex flex-col items-center justify-center py-16">
+                        {/* Animated loading indicator */}
+                        <div className="relative w-20 h-20 mb-8">
+                          <motion.div 
+                            className="absolute inset-0 border-4 border-primary/30 rounded-full"
+                            animate={{ rotate: 360 }}
+                            transition={{ 
+                              duration: 1.5, 
+                              repeat: Infinity, 
+                              ease: "linear" 
+                            }}
+                          />
+                          <motion.div 
+                            className="absolute inset-2 border-4 border-t-primary border-r-transparent border-b-transparent border-l-transparent rounded-full"
+                            animate={{ rotate: 180 }}
+                            transition={{ 
+                              duration: 1.8, 
+                              repeat: Infinity, 
+                              ease: "linear",
+                              repeatType: "reverse" 
+                            }}
+                          />
+                        </div>
+                        
+                        <motion.h3
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.2 }}
+                          className="text-2xl font-semibold mb-4"
+                        >
+                          Creating your personalized guide
+                        </motion.h3>
+                        
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.4 }}
+                          className="text-center text-gray-400 max-w-md mb-8"
+                        >
+                          <p className="mb-2">We're assembling an expertly crafted guide just for you.</p>
+                          <p>This typically takes around 15-20 seconds.</p>
+                        </motion.div>
+                        
+                        {/* Show mini preview of what's coming */}
+                        {recentGuidesQuery.data && recentGuidesQuery.data.length > 0 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6 }}
+                            className="w-full max-w-md mt-4"
+                          >
+                            <h4 className="text-lg font-medium mb-3 text-gray-300">While you wait, check out:</h4>
+                            <div className="space-y-2">
+                              {recentGuidesQuery.data.map((recentGuide, index) => (
+                                <motion.div
+                                  key={recentGuide.id}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: 0.7 + index * 0.1 }}
+                                  className="p-2 bg-secondary/30 rounded"
+                                >
+                                  {recentGuide.title}
+                                </motion.div>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </div>
+                    </motion.div>
+                  ) : guide ? (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <GuideContent 
+                        guide={guide}
+                        onShare={handleShare}
+                        onPrint={handlePrint}
+                        onDownload={handleDownload}
+                      />
+                    </motion.div>
+                  ) : null}
+                </div>
+                
+                {/* Side Ad Container - Always visible during loading and results */}
+                <motion.div 
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="lg:w-1/4 print:hidden h-full sticky top-4"
+                >
+                  <SideAdPanel />
+                </motion.div>
+              </div>
+              
+              {/* Bottom Ad Container - Always visible */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="print:hidden mt-8"
+              >
+                <BottomAdContainer />
+              </motion.div>
+              
+              {/* Popular Guides - Always visible */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="print:hidden mt-8"
+              >
+                <PopularGuides />
+              </motion.div>
             </section>
           )}
         </div>
