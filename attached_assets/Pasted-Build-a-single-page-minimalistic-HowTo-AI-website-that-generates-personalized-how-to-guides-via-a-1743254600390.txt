@@ -1,0 +1,135 @@
+Build a single-page, minimalistic “HowTo.AI” website that generates personalized how‑to guides via an AI API. The AI backend must use Anthropic (I have an Anthropic API key and credits). The site should be SEO optimized and include functionality for users to share, print, and download the generated guide as a PDF. The design is straightforward, ensuring that users “get what they came for” without unnecessary distractions. Ads must be intelligently integrated—start with three ads placed below the input box, and once the guide is generated, the ad container should shift to the right while the guide content replaces the original ad container area. We’re targeting the DIY/self‑help and how‑to niche, which tends to have decent ad revenue. For advertising, choose a premium network like Mediavine (or similar high‑RPM network) instead of AdSense.
+
+Detailed Requirements:
+
+User Interface (UI) & Styling:
+
+Header Section:
+
+Logo on the left with the text “HowTo.AI” in white.
+
+Directly below the logo, display the slogan: “Experts guide, Instantly” in a clean, smaller font.
+
+Color Scheme:
+
+Use a minimalist palette: predominantly black background with white text.
+
+Blue accents may be used for buttons, links, or highlighting.
+
+Input Section:
+
+A centered white text input textbox on a black background where users enter their task.
+
+Ads and Content Layout:
+
+Before Guide Generation:
+
+Under the input box, reserve a container with three ad slots (designed to mimic a premium ad network layout).
+
+After Guide Generation:
+
+The guide output takes over the main container area.
+
+The original ad container then slides to the right (or is re-rendered as a side-panel) and continues to display ads until the end of the guide.
+
+Footer/Extra Features:
+
+Provide buttons for Share, Print, and Download PDF of the generated guide.
+
+SEO Considerations:
+
+Include meta tags, semantic HTML5 (header, nav, main, footer), alt tags for images, and structured data where appropriate.
+
+Include a flow diagram (e.g., a basic block diagram) that shows the UI layout:
+
+pgsql
+Copy
+Edit
++-------------------------------------------------------------+
+| HowTo.AI (logo, white text)   |  [Navigation (optional)]    |
+| Experts guide, Instantly                                      |
++-------------------------------------------------------------+
+| [User Input Textbox]                                          |
++-------------------------------------------------------------+
+| [Ad Container (3 ads)]                                          |
++-------------------------------------------------------------+
+| (After submission, the generated guide replaces the ad area, |
+| and ads move to a side-panel on the right)                     |
+| -----------------------------------------------------------   |
+| | Main Guide Content (generated via AI)                  |  |  <-- Ads Panel (continues to show ads)
+| |                                                        |  |  
+| | [Share] [Print] [Download PDF]                         |  |
+| -----------------------------------------------------------   |
++-------------------------------------------------------------+
+Pages and Routing:
+
+This is a single-page application (SPA).
+
+All functionality (input, guide generation, ad movement, and extra actions) should be handled on one page using JavaScript routing if necessary.
+
+Frontend Development:
+
+Use HTML5, CSS3, and JavaScript (or a framework like React if desired for ease of state management).
+
+Implement responsive design principles to ensure the site works on both desktop and mobile.
+
+Backend Module:
+
+API Integration:
+
+Create a backend module (using Node.js/Express or Python/Flask) that accepts the user’s query.
+
+It should forward the query to the Anthropic API using the provided API key and then return the generated guide.
+
+Additional Features:
+
+A module to generate a PDF version of the guide. (Libraries such as jsPDF or a server-side PDF generator can be used.)
+
+Provide endpoints for share/print if necessary (e.g., generate shareable URLs).
+
+SEO and Performance:
+
+Implement server-side rendering (if using React, consider Next.js) to improve SEO.
+
+Use caching for frequently requested queries, if applicable.
+
+Monetization & Advertiser:
+
+Advertiser:
+
+Instead of AdSense, integrate with a premium ad network like Mediavine.
+
+The ad units should be placed according to best practices for viewability and minimal disruption.
+
+Niche Identification:
+
+The website enters the “DIY / Self‑Help / How‑To” niche—this niche is content‑rich and appeals to audiences seeking practical advice.
+
+It’s known for decent ad RPMs when quality content is delivered.
+
+Ensure the ads are displayed intelligently: initial ads below the input, then the ad container is repositioned to the right once the guide is shown.
+
+Additional Functionalities:
+
+Share, Print, Download PDF:
+
+Implement buttons for sharing (via social media), printing the page, and downloading the guide as a PDF.
+
+Ensure these features are straightforward and require minimal user intervention.
+
+Analytics & SEO:
+
+Integrate Google Analytics or similar (without heavy dependency on Ads, since we’re using an alternative network) to track user behavior.
+
+Optimize loading speed with minified assets and fast hosting.
+
+Coding Guidelines & Documentation:
+
+Provide detailed inline comments and documentation.
+
+Use clear, maintainable code with a consistent style guide (e.g., Airbnb’s JavaScript style guide or your preferred one).
+
+Ensure the code is modular with separate components for UI, API integration, and utility functions (like PDF generation).
+
+Summary:
+Create a functional, single-page how-to guide generator. The site will take a user’s task, use the Anthropic API to generate a personalized guide, and then display it along with features for sharing, printing, and downloading the guide as a PDF. Use a minimalist design (black, white, blue) with intelligently placed ads (using Mediavine) in the DIY/how‑to niche. The solution must be SEO friendly and include detailed code documentation, flow diagrams, and styling guidelines.
