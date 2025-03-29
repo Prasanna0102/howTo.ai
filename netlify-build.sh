@@ -6,8 +6,8 @@ npx vite build
 # Create the functions directory
 mkdir -p dist/functions
 
-# Build the server as a Netlify function
-npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist/functions --main-fields=main,module
+# Build the server as a Netlify function with explicit format control using netlify-server.ts
+npx esbuild server/netlify-server.ts --platform=node --packages=external --bundle --format=cjs --target=node16 --outdir=dist/functions/
 
 # Ensure public directory exists
 mkdir -p dist/public
@@ -23,19 +23,27 @@ if [ -f "dist/index.html" ]; then
   cp dist/index.html dist/public/
 fi
 
-# Create a Netlify function handler
+# Create a Netlify function handler with CommonJS syntax
 cat > dist/functions/api.js << 'EOF'
 // Netlify function wrapper for the Express app
-import { app } from './index.js';
-import serverless from 'serverless-http';
+const { app } = require('./index.js');
+const serverless = require('serverless-http');
 
 // Create a serverless handler from the Express app
 const handler = serverless(app);
 
 // Export the handler for Netlify Functions
-export const handler = async (event, context) => {
-  // Return the serverless handler response
-  return await handler(event, context);
+exports.handler = async (event, context) => {
+  try {
+    // Return the serverless handler response
+    return await handler(event, context);
+  } catch (error) {
+    console.error('Netlify function error:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: 'Internal Server Error' })
+    };
+  }
 };
 EOF
 

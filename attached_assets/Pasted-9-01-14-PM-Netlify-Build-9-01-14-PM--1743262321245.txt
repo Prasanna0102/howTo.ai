@@ -1,0 +1,108 @@
+9:01:14 PM: Netlify Build                                                 
+9:01:14 PM: ────────────────────────────────────────────────────────────────
+9:01:14 PM: ​
+9:01:14 PM: ❯ Version
+9:01:14 PM:   @netlify/build 30.0.6
+9:01:14 PM: ​
+9:01:14 PM: ❯ Flags
+9:01:14 PM:   accountId: 67e67f0a589a1d5a97522f0a
+9:01:14 PM:   baseRelDir: true
+9:01:14 PM:   buildId: 67e81224438a5600081d4efe
+9:01:14 PM:   deployId: 67e81225438a5600081d4f00
+9:01:14 PM: ​
+9:01:14 PM: ❯ Current directory
+9:01:14 PM:   /opt/build/repo
+9:01:14 PM: ​
+9:01:14 PM: ❯ Config file
+9:01:14 PM:   /opt/build/repo/netlify.toml
+9:01:14 PM: ​
+9:01:14 PM: ❯ Context
+9:01:14 PM:   production
+9:01:14 PM: ​
+9:01:14 PM: build.command from netlify.toml                               
+9:01:14 PM: ────────────────────────────────────────────────────────────────
+9:01:14 PM: ​
+9:01:14 PM: $ bash ./netlify-build.sh
+9:01:15 PM: vite v5.4.14 building for production...
+9:01:15 PM: transforming...
+9:01:19 PM: ✓ 2424 modules transformed.
+9:01:19 PM: rendering chunks...
+9:01:19 PM: computing gzip size...
+9:01:19 PM: ../dist/public/index.html                            4.24 kB │ gzip:   1.48 kB
+9:01:19 PM: ../dist/public/assets/index-BikL8ELR.css            74.47 kB │ gzip:  12.59 kB
+9:01:19 PM: ../dist/public/assets/purify.es-D-QPbZEk.js         21.82 kB │ gzip:   8.60 kB
+9:01:19 PM: ../dist/public/assets/index.es-DyurU-1-.js         149.98 kB │ gzip:  51.25 kB
+9:01:19 PM: ../dist/public/assets/html2canvas.esm-CBrSDip1.js  201.42 kB │ gzip:  48.03 kB
+9:01:19 PM: ../dist/public/assets/index-DgpeLa_r.js            795.67 kB │ gzip: 257.57 kB
+9:01:19 PM: 
+9:01:19 PM: (!) Some chunks are larger than 500 kB after minification. Consider:
+9:01:19 PM: - Using dynamic import() to code-split the application
+9:01:19 PM: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+9:01:19 PM: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+9:01:19 PM: ✓ built in 4.85s
+9:01:20 PM:   dist/functions/index.js  20.1kb
+9:01:20 PM: ⚡ Done in 5ms
+9:01:20 PM: Build completed successfully. The application is ready for Netlify deployment.
+9:01:20 PM: ​
+9:01:20 PM: (build.command completed in 5.6s)
+9:01:20 PM: ​
+9:01:20 PM: Functions bundling                                            
+9:01:20 PM: ────────────────────────────────────────────────────────────────
+9:01:20 PM: ​
+9:01:20 PM: Packaging Functions from dist/functions directory:
+9:01:20 PM:  - api.js
+9:01:20 PM:  - index.js
+9:01:20 PM: ​
+9:01:26 PM: ✘ [ERROR] Top-level await is currently not supported with the "cjs" output format
+9:01:26 PM:     dist/functions/index.js:441:6:
+9:01:26 PM:       441 │       await import("@replit/vite-plugin-cartographer").then(
+9:01:26 PM:           ╵       ~~~~~
+9:01:27 PM: ​
+9:01:27 PM: Bundling of function "index" failed                           
+9:01:27 PM: ────────────────────────────────────────────────────────────────
+9:01:27 PM: ​
+9:01:27 PM:   Error message
+9:01:27 PM:   Build failed with 1 error:
+9:01:27 PM:   dist/functions/index.js:441:6: ERROR: Top-level await is currently not supported with the "cjs" output format
+9:01:27 PM: ​
+9:01:27 PM:   Error location
+9:01:27 PM:   While bundling function "index"
+9:01:27 PM: ​
+9:01:27 PM:   Resolved config
+9:01:27 PM:   build:
+9:01:27 PM:     base: /opt/build/repo
+9:01:27 PM:     command: bash ./netlify-build.sh
+9:01:27 PM:     commandOrigin: config
+9:01:27 PM:     environment:
+9:01:27 PM:       - ANTHROPIC_API_KEY
+9:01:27 PM:       - NODE_VERSION
+9:01:27 PM:     publish: /opt/build/repo/dist/public
+9:01:27 PM:     publishOrigin: config
+9:01:27 PM:   functionsDirectory: /opt/build/repo/dist/functions
+9:01:27 PM:   headers:
+9:01:27 PM:     - for: /assets/*
+      values:
+        Cache-Control: public, max-age=31536000, immutable
+    - for: '*.{jpg,jpeg,png,svg,gif,webp}'
+      values:
+        Cache-Control: public, max-age=31536000, immutable
+    - for: /*
+      values:
+        Content-Security-Policy: 'default-src ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''; style-src ''self'' ''unsafe-inline''; img-src ''self'' data: blob:; connect-src ''self'' https://api.anthropic.com; font-src ''self''; object-src ''none''; media-src ''self''; frame-src ''self'';'
+        Referrer-Policy: strict-origin-when-cross-origin
+        X-Content-Type-Options: nosniff
+        X-Frame-Options: DENY
+        X-XSS-Protection: 1; mode=block
+  headersOrigin: config
+  redirects:
+    - from: /api/*
+      status: 200
+      to: /.netlify/functions/api/:splat
+    - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+9:01:27 PM: Build failed due to a user error: Build script returned non-zero exit code: 2
+9:01:27 PM: Failing build: Failed to build site
+9:01:28 PM: Finished processing build request in 33.685s
+9:01:27 PM: Failed during stage 'building site': Build script returned non-zero exit code: 2
